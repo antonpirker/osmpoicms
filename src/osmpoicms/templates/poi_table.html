@@ -102,6 +102,10 @@
   {% endif %}
 </div>
 
+<style>
+  tbody tr:focus-within { background-color: #dbeafe !important; }
+</style>
+
 <script>
   const ALL_T = {{ all_translations | tojson }};
   let currentLang = {{ lang | tojson }};
