@@ -13,6 +13,8 @@ _FILTER_PRIVATE = {"leisure", "huts"}
 def _build_query(area_id: int, tags: list[tuple[str, str]], filter_private: bool = False) -> str:
     access_filter = '["access"!="private"]' if filter_private else ""
     statements = "\n".join(
+        f'  {etype}["{k}"]{access_filter}(area.searchArea);'
+        if v == "*" else
         f'  {etype}["{k}"="{v}"]{access_filter}(area.searchArea);'
         for k, v in tags
         for etype in ("node", "way", "relation")
