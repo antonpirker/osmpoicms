@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block body %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
 <nav class="navbar navbar-light bg-light px-3 border-bottom">
-  <span class="navbar-brand fw-semibold">
-    <a href="/dashboard" class="navbar-brand fw-semibold text-decoration-none text-dark">OSM POI CMS</a>
-  </span>
+  <a href="/dashboard" class="navbar-brand fw-semibold text-decoration-none text-dark">OSM POI CMS</a>
   <div class="d-flex align-items-center gap-3">
     <div class="d-flex gap-1">
       <button type="button" onclick="switchLang('de')" data-lang-btn="de"
@@ -16,125 +16,166 @@
   </div>
 </nav>
 
-<div class="container-fluid mt-3 px-3">
+<div style="display: flex; align-items: flex-start;">
 
-  <div class="d-flex align-items-center gap-3 mb-3">
-    <a href="/dashboard?community_id={{ community_id }}&community_name={{ community_name | urlencode }}&category={{ category }}"
-       class="btn btn-outline-secondary btn-sm" data-i18n="table_back">{{ t.table_back }}</a>
-    <h5 class="mb-0">{{ t["category_" ~ category] }} in {{ community_name }}</h5>
-    {% if not error %}
-    <span class="text-muted small">
-      {{ poi_count }} {{ t.table_result if poi_count == 1 else t.table_results }}{% if limited %} {{ t.table_limited_suffix }}{% endif %}
-    </span>
-    {% endif %}
+  <div style="flex: 1; min-width: 0; overflow: hidden;">
+    <div class="container-fluid mt-3 px-3">
+
+      <div class="d-flex align-items-center gap-3 mb-3">
+        <a href="/dashboard?community_id={{ community_id }}&community_name={{ community_name | urlencode }}&category={{ category }}"
+           class="btn btn-outline-secondary btn-sm" data-i18n="table_back">{{ t.table_back }}</a>
+        <h5 class="mb-0">{{ t["category_" ~ category] }} in {{ community_name }}</h5>
+        {% if not error %}
+        <span class="text-muted small">
+          {{ poi_count }} {{ t.table_result if poi_count == 1 else t.table_results }}{% if limited %} {{ t.table_limited_suffix }}{% endif %}
+        </span>
+        {% endif %}
+      </div>
+
+      {% if error %}
+      <div class="alert alert-danger">{{ error }}</div>
+
+      {% elif poi_count == 0 %}
+      <p class="text-muted">{{ t.table_no_pois_prefix }} {{ community_name }}.</p>
+
+      {% else %}
+
+      {% if limited %}
+      <div class="alert alert-warning py-2 mb-3" data-i18n="table_limited_warning">
+        {{ t.table_limited_warning }}
+      </div>
+      {% endif %}
+
+      <form method="post" action="/pois/confirm">
+        <input type="hidden" name="community_id" value="{{ community_id }}">
+        <input type="hidden" name="community_name" value="{{ community_name }}">
+        <input type="hidden" name="category" value="{{ category }}">
+        <input type="hidden" name="poi_count" value="{{ poi_count }}">
+
+        <div class="mb-2">
+          <button type="submit" class="btn btn-primary" data-i18n="table_save_btn">{{ t.table_save_btn }}</button>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered table-sm align-middle" style="min-width: max-content;">
+            <thead class="table-light">
+              <tr>
+                <th style="width: 4rem;"></th>
+                {% for key, label in columns %}
+                <th data-col="{{ loop.index0 + 1 }}"
+                    data-i18n="col_{{ key | replace(':', '_') }}"
+                    style="min-width: {% if key == 'website' or key == 'opening_hours' %}180px{% elif key == 'name' or key == 'addr:street' %}150px{% elif key == 'addr:housenumber' %}60px{% else %}120px{% endif %}; cursor: pointer; user-select: none;">
+                  <span data-i18n-label>{{ t["col_" ~ (key | replace(":", "_"))] }}</span><span class="sort-arrow text-muted ms-1">↕</span>
+                </th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for poi in pois %}
+              {% set i = loop.index0 %}
+              <tr>
+                <td class="text-center" style="white-space: nowrap;">
+                  <input type="hidden" name="poi_type_{{ i }}" value="{{ poi.type }}">
+                  <input type="hidden" name="poi_id_{{ i }}" value="{{ poi.id }}">
+                  <input type="hidden" name="poi_all_tags_{{ i }}" value='{{ poi.tags | tojson }}'>
+                  <a href="https://www.openstreetmap.org/{{ poi.type }}/{{ poi.id }}"
+                     target="_blank" data-i18n-title="table_osm_link_title"
+                     title="{{ t.table_osm_link_title }}" class="text-decoration-none">🔗</a>
+                  {% if poi.lat %}
+                  <button type="button" class="btn btn-link btn-sm p-0 ms-1 map-btn"
+                          data-idx="{{ i }}" title="Map">🗺️</button>
+                  {% endif %}
+                </td>
+                {% for key, label in columns %}
+                <td class="p-1">
+                  <input type="hidden" name="orig_{{ i }}_{{ key }}" value="{{ poi.tags.get(key, '') }}">
+                  <input type="text" class="form-control form-control-sm border-0 bg-transparent"
+                         name="edit_{{ i }}_{{ key }}"
+                         value="{{ poi.tags.get(key, '') }}"
+                         placeholder="–">
+                </td>
+                {% endfor %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-2 mb-4">
+          <button type="submit" class="btn btn-primary" data-i18n="table_save_btn">{{ t.table_save_btn }}</button>
+        </div>
+      </form>
+
+      {% endif %}
+    </div>
   </div>
 
-  {% if error %}
-  <div class="alert alert-danger">{{ error }}</div>
-
-  {% elif poi_count == 0 %}
-  <p class="text-muted">{{ t.table_no_pois_prefix }} {{ community_name }}.</p>
-
-  {% else %}
-
-  {% if limited %}
-  <div class="alert alert-warning py-2 mb-3" data-i18n="table_limited_warning">
-    {{ t.table_limited_warning }}
+  <!-- map panel -->
+  <div id="map-panel" style="width: 0; flex-shrink: 0; transition: width 0.25s ease; position: sticky; top: 0; height: 100vh; overflow: hidden; border-left: 1px solid #dee2e6; background: #fff;">
+    <div style="width: 420px; height: 100%; display: flex; flex-direction: column;">
+      <div class="d-flex align-items-center justify-content-between px-2 py-1 border-bottom bg-light">
+        <span id="map-poi-name" class="small fw-semibold text-truncate me-2"></span>
+        <button type="button" onclick="closeMap()" class="btn btn-sm btn-outline-secondary flex-shrink-0">✕</button>
+      </div>
+      <div id="map" style="flex: 1;"></div>
+    </div>
   </div>
-  {% endif %}
 
-  <form method="post" action="/pois/confirm">
-    <input type="hidden" name="community_id" value="{{ community_id }}">
-    <input type="hidden" name="community_name" value="{{ community_name }}">
-    <input type="hidden" name="category" value="{{ category }}">
-    <input type="hidden" name="poi_count" value="{{ poi_count }}">
-
-    <div class="mb-2">
-      <button type="submit" class="btn btn-primary" data-i18n="table_save_btn">{{ t.table_save_btn }}</button>
-    </div>
-
-    <div class="table-responsive">
-      <table class="table table-bordered table-sm align-middle" style="min-width: max-content;">
-        <thead class="table-light">
-          <tr>
-            <th style="width: 2rem;"></th>
-            {% for key, label in columns %}
-            <th data-col="{{ loop.index0 + 1 }}"
-                data-i18n="col_{{ key | replace(':', '_') }}"
-                style="min-width: {% if key == 'website' or key == 'opening_hours' %}180px{% elif key == 'name' or key == 'addr:street' %}150px{% elif key == 'addr:housenumber' %}60px{% else %}120px{% endif %}; cursor: pointer; user-select: none;">
-              <span data-i18n-label>{{ t["col_" ~ (key | replace(":", "_"))] }}</span><span class="sort-arrow text-muted ms-1">↕</span>
-            </th>
-            {% endfor %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for poi in pois %}
-          {% set i = loop.index0 %}
-          <tr>
-            <td class="text-center">
-              <input type="hidden" name="poi_type_{{ i }}" value="{{ poi.type }}">
-              <input type="hidden" name="poi_id_{{ i }}" value="{{ poi.id }}">
-              <input type="hidden" name="poi_all_tags_{{ i }}" value='{{ poi.tags | tojson }}'>
-              <a href="https://www.openstreetmap.org/{{ poi.type }}/{{ poi.id }}"
-                 target="_blank" data-i18n-title="table_osm_link_title"
-                 title="{{ t.table_osm_link_title }}" class="text-decoration-none">🔗</a>
-            </td>
-            {% for key, label in columns %}
-            <td class="p-1">
-              <input type="hidden" name="orig_{{ i }}_{{ key }}" value="{{ poi.tags.get(key, '') }}">
-              <input type="text" class="form-control form-control-sm border-0 bg-transparent"
-                     name="edit_{{ i }}_{{ key }}"
-                     value="{{ poi.tags.get(key, '') }}"
-                     placeholder="–">
-            </td>
-            {% endfor %}
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-
-    <div class="mt-2 mb-4">
-      <button type="submit" class="btn btn-primary" data-i18n="table_save_btn">{{ t.table_save_btn }}</button>
-    </div>
-  </form>
-
-  {% endif %}
 </div>
 
 <style>
   tbody tr:focus-within td { background-color: #dbeafe !important; }
 </style>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-  const ALL_T = {{ all_translations | tojson }};
-  let currentLang = {{ lang | tojson }};
+  const POI_DATA = [
+    {% for poi in pois %}
+    {"lat": {{ poi.lat | tojson }}, "lon": {{ poi.lon | tojson }}, "name": {{ (poi.tags.get('name') or (poi.type ~ '/' ~ poi.id)) | tojson }}, "type": {{ poi.type | tojson }}, "id": {{ poi.id | tojson }}}{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ];
 
-  function switchLang(lang) {
-    document.cookie = `lang=${lang}; path=/; max-age=${365 * 24 * 3600}; samesite=lax`;
-    currentLang = lang;
-    const t = ALL_T[lang];
+  let leafletMap = null, marker = null, mapOpen = false;
+  const panel = document.getElementById('map-panel');
 
-    document.querySelectorAll('[data-i18n]:not(th)').forEach(el => {
-      const key = el.dataset.i18n;
-      if (t[key] !== undefined) el.textContent = t[key];
-    });
+  document.querySelectorAll('.map-btn').forEach(btn => {
+    btn.addEventListener('click', () => openMap(parseInt(btn.dataset.idx)));
+  });
 
-    document.querySelectorAll('th[data-i18n]').forEach(th => {
-      const key = th.dataset.i18n;
-      if (t[key] !== undefined) th.querySelector('[data-i18n-label]').textContent = t[key];
-    });
+  function openMap(idx) {
+    const poi = POI_DATA[idx];
+    document.getElementById('map-poi-name').textContent = poi.name;
 
-    document.querySelectorAll('[data-i18n-title]').forEach(el => {
-      const key = el.dataset.i18nTitle;
-      if (t[key] !== undefined) el.title = t[key];
-    });
+    if (!mapOpen) {
+      panel.style.width = '420px';
+      mapOpen = true;
+      panel.addEventListener('transitionend', function init() {
+        panel.removeEventListener('transitionend', init);
+        if (!leafletMap) {
+          leafletMap = L.map('map').setView([poi.lat, poi.lon], 16);
+          L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          }).addTo(leafletMap);
+        } else {
+          leafletMap.invalidateSize();
+        }
+        setMarker(poi);
+      });
+    } else {
+      leafletMap.setView([poi.lat, poi.lon], 16);
+      setMarker(poi);
+    }
+  }
 
-    document.querySelectorAll('[data-lang-btn]').forEach(btn => {
-      const active = btn.dataset.langBtn === lang;
-      btn.classList.toggle('btn-secondary', active);
-      btn.classList.toggle('btn-outline-secondary', !active);
-    });
+  function setMarker(poi) {
+    if (marker) marker.remove();
+    marker = L.marker([poi.lat, poi.lon]).addTo(leafletMap);
+    marker.bindPopup(poi.name).openPopup();
+  }
+
+  function closeMap() {
+    panel.style.width = '0';
+    mapOpen = false;
   }
 
   // --- row highlight on edit ---
@@ -183,6 +224,37 @@
     document.querySelectorAll('th[data-col]').forEach(th => {
       const arrow = th.querySelector('.sort-arrow');
       arrow.textContent = parseInt(th.dataset.col) === sortCol ? (sortAsc ? '↑' : '↓') : '↕';
+    });
+  }
+
+  // --- i18n ---
+  const ALL_T = {{ all_translations | tojson }};
+  let currentLang = {{ lang | tojson }};
+
+  function switchLang(lang) {
+    document.cookie = `lang=${lang}; path=/; max-age=${365 * 24 * 3600}; samesite=lax`;
+    currentLang = lang;
+    const t = ALL_T[lang];
+
+    document.querySelectorAll('[data-i18n]:not(th)').forEach(el => {
+      const key = el.dataset.i18n;
+      if (t[key] !== undefined) el.textContent = t[key];
+    });
+
+    document.querySelectorAll('th[data-i18n]').forEach(th => {
+      const key = th.dataset.i18n;
+      if (t[key] !== undefined) th.querySelector('[data-i18n-label]').textContent = t[key];
+    });
+
+    document.querySelectorAll('[data-i18n-title]').forEach(el => {
+      const key = el.dataset.i18nTitle;
+      if (t[key] !== undefined) el.title = t[key];
+    });
+
+    document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+      const active = btn.dataset.langBtn === lang;
+      btn.classList.toggle('btn-secondary', active);
+      btn.classList.toggle('btn-outline-secondary', !active);
     });
   }
 </script>
