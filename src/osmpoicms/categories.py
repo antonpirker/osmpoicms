@@ -9,6 +9,7 @@ CATEGORIES: list[tuple[str, str]] = [
     ("shopping", "Shopping"),
     ("banks", "Banks & ATMs"),
     ("leisure", "Leisure"),
+    ("energy", "Charging & Fuel"),
 ]
 
 CATEGORY_TAGS: dict[str, list[tuple[str, str]]] = {
@@ -181,6 +182,10 @@ CATEGORY_TAGS: dict[str, list[tuple[str, str]]] = {
         ("amenity", "bank"),
         ("amenity", "atm"),
     ],
+    "energy": [
+        ("amenity", "charging_station"),
+        ("amenity", "fuel"),
+    ],
     "leisure": [
         ("leisure", "*"),
         ("amenity", "theatre"),
@@ -207,6 +212,7 @@ _EXTRA_COLUMNS: dict[str, list[tuple[str, str]]] = {
     "doctors": [("healthcare:speciality", "Speciality")],
     "banks": [("operator", "Operator")],
     "leisure": [("access", "Access")],
+    "energy": [("operator", "Operator")],
 }
 
 
