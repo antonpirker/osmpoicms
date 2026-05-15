@@ -59,7 +59,7 @@
         <div class="table-responsive">
           <table class="table table-bordered table-sm align-middle" style="min-width: max-content;">
             <thead class="table-light">
-              <tr>
+              <tr data-idx="{{ i }}">
                 <th style="width: 4rem;"></th>
                 {% for key, label in columns %}
                 <th data-col="{{ loop.index0 + 1 }}"
@@ -73,7 +73,7 @@
             <tbody>
               {% for poi in pois %}
               {% set i = loop.index0 %}
-              <tr>
+              <tr data-idx="{{ i }}">
                 <td class="text-center" style="white-space: nowrap;">
                   <input type="hidden" name="poi_type_{{ i }}" value="{{ poi.type }}">
                   <input type="hidden" name="poi_id_{{ i }}" value="{{ poi.id }}">
@@ -177,6 +177,15 @@
     panel.style.width = '0';
     mapOpen = false;
   }
+
+  // --- sync map to focused row ---
+  document.querySelectorAll('tbody input[type=text]').forEach(input => {
+    input.addEventListener('focus', () => {
+      if (!mapOpen) return;
+      const idx = parseInt(input.closest('tr').dataset.idx);
+      if (!isNaN(idx) && POI_DATA[idx]?.lat) openMap(idx);
+    });
+  });
 
   // --- row highlight on edit ---
   document.querySelectorAll('tbody input[type=text]').forEach(input => {
