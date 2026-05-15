@@ -53,5 +53,19 @@
   "category_shopping": "Einkaufen",
   "category_banks": "Banken & Geldautomaten",
   "category_leisure": "Freizeit",
-  "category_energy": "Ladestationen & Tankstellen"
+  "category_energy": "Ladestationen & Tankstellen",
+
+  "col_name": "Name",
+  "col_addr_street": "Straße",
+  "col_addr_housenumber": "Nr.",
+  "col_phone": "Telefon",
+  "col_website": "Website",
+  "col_opening_hours": "Öffnungszeiten",
+  "col_cuisine": "Küche",
+  "col_ele": "Höhe (m)",
+  "col_stars": "Sterne",
+  "col_rooms": "Zimmer",
+  "col_healthcare_speciality": "Fachgebiet",
+  "col_operator": "Betreiber",
+  "col_access": "Zugang"
 }

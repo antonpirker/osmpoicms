@@ -61,7 +61,7 @@
             {% for key, label in columns %}
             <th data-col="{{ loop.index0 + 1 }}"
                 style="min-width: {% if key == 'website' or key == 'opening_hours' %}180px{% elif key == 'name' or key == 'addr:street' %}150px{% elif key == 'addr:housenumber' %}60px{% else %}120px{% endif %}; cursor: pointer; user-select: none;">
-              {{ label }}<span class="sort-arrow text-muted ms-1">↕</span>
+              {{ t["col_" ~ (key | replace(":", "_"))] }}<span class="sort-arrow text-muted ms-1">↕</span>
             </th>
             {% endfor %}
           </tr>

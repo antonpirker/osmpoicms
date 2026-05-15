@@ -53,5 +53,19 @@
   "category_shopping": "Shopping",
   "category_banks": "Banks & ATMs",
   "category_leisure": "Leisure",
-  "category_energy": "Charging & Fuel"
+  "category_energy": "Charging & Fuel",
+
+  "col_name": "Name",
+  "col_addr_street": "Street",
+  "col_addr_housenumber": "No.",
+  "col_phone": "Phone",
+  "col_website": "Website",
+  "col_opening_hours": "Opening Hours",
+  "col_cuisine": "Cuisine",
+  "col_ele": "Elevation (m)",
+  "col_stars": "Stars",
+  "col_rooms": "Rooms",
+  "col_healthcare_speciality": "Speciality",
+  "col_operator": "Operator",
+  "col_access": "Access"
 }
