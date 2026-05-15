@@ -11,7 +11,8 @@
 <div class="container-fluid mt-3 px-3">
 
   <div class="d-flex align-items-center gap-3 mb-3">
-    <a href="/dashboard" class="btn btn-outline-secondary btn-sm">← Back</a>
+    <a href="/dashboard?community_id={{ community_id }}&community_name={{ community_name | urlencode }}&category={{ category }}"
+       class="btn btn-outline-secondary btn-sm">← Back</a>
     <h5 class="mb-0">{{ category_label }} in {{ community_name }}</h5>
     {% if not error %}
     <span class="text-muted small">

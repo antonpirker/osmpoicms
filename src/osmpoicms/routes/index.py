@@ -21,10 +21,21 @@ async def index(request: Request, error: str = ""):
 
 
 @router.get("/dashboard")
-async def dashboard(request: Request):
+async def dashboard(
+    request: Request,
+    community_id: str = "",
+    community_name: str = "",
+    category: str = "",
+):
     session = get_session(request)
     if not session:
         return RedirectResponse("/")
     return templates.TemplateResponse(
-        request, "dashboard.html", {"user": session["user"], "categories": CATEGORIES}
+        request, "dashboard.html", {
+            "user": session["user"],
+            "categories": CATEGORIES,
+            "prefill_community_id": community_id,
+            "prefill_community_name": community_name,
+            "prefill_category": category,
+        }
     )

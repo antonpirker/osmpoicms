@@ -15,15 +15,16 @@
       <label class="form-label fw-semibold">Community</label>
       <div class="position-relative">
         <input type="text" id="community-input" class="form-control pe-5"
-               placeholder="Type to search for a municipality..." autocomplete="off">
+               placeholder="Type to search for a municipality..." autocomplete="off"
+               value="{{ prefill_community_name }}">
         <span id="community-spinner"
               class="position-absolute top-50 end-0 translate-middle-y me-2 d-none">
           <span class="spinner-border spinner-border-sm text-secondary" role="status"></span>
         </span>
         <ul id="community-dropdown" class="dropdown-menu w-100" style="max-height: 200px; overflow-y: auto;"></ul>
       </div>
-      <input type="hidden" name="community_id" id="community-id">
-      <input type="hidden" name="community_name" id="community-name">
+      <input type="hidden" name="community_id" id="community-id" value="{{ prefill_community_id }}">
+      <input type="hidden" name="community_name" id="community-name" value="{{ prefill_community_name }}">
     </div>
 
     <div class="mb-4">
@@ -61,6 +62,14 @@
   }
 
   document.querySelectorAll('.category-radio').forEach(r => r.addEventListener('change', checkReady));
+
+  // Restore pre-selected category and initial button state
+  const prefillCategory = {{ prefill_category | tojson }};
+  if (prefillCategory) {
+    const radio = document.getElementById('cat-' + prefillCategory);
+    if (radio) radio.checked = true;
+  }
+  checkReady();
 
   let debounce;
   communityInput.addEventListener('input', () => {
