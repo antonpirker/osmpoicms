@@ -4,7 +4,7 @@ from fastapi.responses import RedirectResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 
-from osmpoicms.routes import api, auth, index
+from osmpoicms.routes import api, auth, index, pois
 
 
 class LocalhostRedirect(BaseHTTPMiddleware):
@@ -19,6 +19,7 @@ app = FastAPI(title="OSM POI CMS")
 app.add_middleware(LocalhostRedirect)
 app.include_router(auth.router)
 app.include_router(api.router)
+app.include_router(pois.router)
 app.include_router(index.router)
 
 
