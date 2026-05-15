@@ -32,7 +32,7 @@
   "confirm_source_placeholder": "z. B. Lokales Wissen, offizielle Website",
   "confirm_source_hint": "Max. 255 Zeichen. Optional.",
   "confirm_back_to_edit": "← Zurück zur Bearbeitung",
-  "confirm_push_btn": "Bestätigen &amp; auf OSM speichern",
+  "confirm_push_btn": "Bestätigen & auf OSM speichern",
   "confirm_push_btn_loading": "Wird auf OSM gespeichert…",
 
   "success_of": "von",
