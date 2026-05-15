@@ -76,15 +76,44 @@
     }, 300);
   });
 
-  dropdown.addEventListener('click', e => {
-    e.preventDefault();
-    const a = e.target.closest('[data-id]');
-    if (!a) return;
-    communityId.value   = a.dataset.id;
-    communityName.value = a.dataset.name;
+  function selectItem(a) {
+    communityId.value    = a.dataset.id;
+    communityName.value  = a.dataset.name;
     communityInput.value = a.dataset.name;
     closeDropdown();
     checkReady();
+  }
+
+  dropdown.addEventListener('click', e => {
+    e.preventDefault();
+    const a = e.target.closest('[data-id]');
+    if (a) selectItem(a);
+  });
+
+  communityInput.addEventListener('keydown', e => {
+    const items = dropdown.querySelectorAll('[data-id]');
+    if (!items.length) return;
+    const active = dropdown.querySelector('.active');
+    const idx    = Array.from(items).indexOf(active);
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const next = items[idx + 1] ?? items[0];
+      active?.classList.remove('active');
+      next.classList.add('active');
+      next.scrollIntoView({ block: 'nearest' });
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prev = items[idx - 1] ?? items[items.length - 1];
+      active?.classList.remove('active');
+      prev.classList.add('active');
+      prev.scrollIntoView({ block: 'nearest' });
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (active) selectItem(active);
+    } else if (e.key === 'Escape') {
+      closeDropdown();
+    }
   });
 
   document.addEventListener('click', e => {
