@@ -133,6 +133,16 @@
     });
   }
 
+  // --- row highlight on edit ---
+  document.querySelectorAll('tbody input[type=text]').forEach(input => {
+    input.addEventListener('input', () => {
+      const row = input.closest('tr');
+      const changed = Array.from(row.querySelectorAll('input[type=text]'))
+        .some(inp => inp.value !== inp.closest('td').querySelector('input[type=hidden]').value);
+      row.classList.toggle('table-warning', changed);
+    });
+  });
+
   // --- sorting ---
   let sortCol = 1, sortAsc = true;
 
