@@ -15,8 +15,8 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["src/osmpoicms"]
 
-[tool.uv.scripts]
-dev = "uvicorn osmpoicms.main:app --reload --ssl-keyfile=localhost-key.pem --ssl-certfile=localhost.pem"
+[project.scripts]
+dev = "osmpoicms.main:dev"
 
 [tool.ruff]
 line-length = 100
