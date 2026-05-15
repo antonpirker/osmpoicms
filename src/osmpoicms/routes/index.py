@@ -4,6 +4,7 @@ from fastapi import APIRouter, Request
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
+from osmpoicms.categories import CATEGORIES
 from osmpoicms.session import get_session
 
 router = APIRouter()
@@ -22,4 +23,6 @@ async def dashboard(request: Request):
     session = get_session(request)
     if not session:
         return RedirectResponse("/")
-    return templates.TemplateResponse(request, "dashboard.html", {"user": session["user"]})
+    return templates.TemplateResponse(
+        request, "dashboard.html", {"user": session["user"], "categories": CATEGORIES}
+    )

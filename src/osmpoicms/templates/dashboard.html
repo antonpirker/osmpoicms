@@ -7,7 +7,93 @@
     <a href="/auth/logout" class="btn btn-outline-secondary btn-sm">Logout</a>
   </div>
 </nav>
-<div class="container mt-4">
-  <p class="text-muted">Community and POI selection coming in the next step.</p>
+
+<div class="container mt-4" style="max-width: 640px;">
+  <form method="post" action="/pois" id="poi-form">
+
+    <div class="mb-4">
+      <label class="form-label fw-semibold">Community</label>
+      <div class="position-relative">
+        <input type="text" id="community-input" class="form-control"
+               placeholder="Type to search for a municipality..." autocomplete="off">
+        <ul id="community-dropdown" class="dropdown-menu w-100" style="max-height: 200px; overflow-y: auto;"></ul>
+      </div>
+      <input type="hidden" name="community_id" id="community-id">
+      <input type="hidden" name="community_name" id="community-name">
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label fw-semibold">Category</label>
+      <div class="row row-cols-2 g-2">
+        {% for value, label in categories %}
+        <div class="col">
+          <div class="form-check">
+            <input class="form-check-input category-radio" type="radio"
+                   name="category" id="cat-{{ value }}" value="{{ value }}">
+            <label class="form-check-label" for="cat-{{ value }}">{{ label }}</label>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <button type="submit" id="load-btn" class="btn btn-primary" disabled>
+      Load POIs
+    </button>
+
+  </form>
 </div>
+
+<script>
+  const communityInput = document.getElementById('community-input');
+  const dropdown       = document.getElementById('community-dropdown');
+  const communityId    = document.getElementById('community-id');
+  const communityName  = document.getElementById('community-name');
+  const loadBtn        = document.getElementById('load-btn');
+
+  function checkReady() {
+    loadBtn.disabled = !(communityId.value && document.querySelector('.category-radio:checked'));
+  }
+
+  document.querySelectorAll('.category-radio').forEach(r => r.addEventListener('change', checkReady));
+
+  let debounce;
+  communityInput.addEventListener('input', () => {
+    communityId.value = '';
+    communityName.value = '';
+    checkReady();
+    clearTimeout(debounce);
+    const q = communityInput.value.trim();
+    if (q.length < 2) { closeDropdown(); return; }
+    debounce = setTimeout(async () => {
+      const res   = await fetch('/api/communities?q=' + encodeURIComponent(q));
+      const items = await res.json();
+      if (!items.length) { closeDropdown(); return; }
+      dropdown.innerHTML = items.map(c =>
+        `<li><a class="dropdown-item" href="#" data-id="${c.id}" data-name="${c.name}">${c.name}</a></li>`
+      ).join('');
+      dropdown.classList.add('show');
+    }, 300);
+  });
+
+  dropdown.addEventListener('click', e => {
+    e.preventDefault();
+    const a = e.target.closest('[data-id]');
+    if (!a) return;
+    communityId.value   = a.dataset.id;
+    communityName.value = a.dataset.name;
+    communityInput.value = a.dataset.name;
+    closeDropdown();
+    checkReady();
+  });
+
+  document.addEventListener('click', e => {
+    if (!communityInput.contains(e.target) && !dropdown.contains(e.target)) closeDropdown();
+  });
+
+  function closeDropdown() {
+    dropdown.innerHTML = '';
+    dropdown.classList.remove('show');
+  }
+</script>
 {% endblock %}
