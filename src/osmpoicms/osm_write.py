@@ -5,6 +5,7 @@ import httpx
 
 _OSM_API = "https://api.openstreetmap.org/api/0.6"
 _LEGACY_TAGS = {"contact:email", "contact:phone", "contact:website", "url"}
+_TIMEOUT = httpx.Timeout(30.0)
 
 
 def apply_tag_changes(
@@ -51,7 +52,7 @@ async def create_changeset(token: str, comment: str, source: str) -> str:
         '<tag k="created_by" v="osmpoicms/1.0"/>'
         "</changeset></osm>"
     )
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=_TIMEOUT) as client:
         r = await client.put(
             f"{_OSM_API}/changeset/create",
             content=xml.encode("utf-8"),
@@ -62,7 +63,7 @@ async def create_changeset(token: str, comment: str, source: str) -> str:
 
 
 async def close_changeset(token: str, changeset_id: str) -> None:
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=_TIMEOUT) as client:
         await client.put(
             f"{_OSM_API}/changeset/{changeset_id}/close",
             headers={"Authorization": f"Bearer {token}"},
@@ -70,7 +71,7 @@ async def close_changeset(token: str, changeset_id: str) -> None:
 
 
 async def fetch_element_xml(token: str, etype: str, eid: int) -> str:
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=_TIMEOUT) as client:
         r = await client.get(
             f"{_OSM_API}/{etype}/{eid}",
             headers={"Authorization": f"Bearer {token}"},
@@ -80,7 +81,7 @@ async def fetch_element_xml(token: str, etype: str, eid: int) -> str:
 
 
 async def put_element(token: str, etype: str, eid: int, xml: str) -> str:
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=_TIMEOUT) as client:
         r = await client.put(
             f"{_OSM_API}/{etype}/{eid}",
             content=xml.encode("utf-8"),
