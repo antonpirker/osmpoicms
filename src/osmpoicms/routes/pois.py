@@ -132,8 +132,8 @@ async def save_pois(request: Request):
     for j in range(change_count):
         etype = form.get(f"c_type_{j}")
         eid = int(form.get(f"c_id_{j}"))
-        name = form.get(f"c_name_{j}", f"{etype}/{eid}")
         new_tags = json.loads(form.get(f"c_new_tags_{j}", "{}"))
+        name = new_tags.get("name") or form.get(f"c_name_{j}", f"{etype}/{eid}")
 
         try:
             xml = await fetch_element_xml(token, etype, eid)
