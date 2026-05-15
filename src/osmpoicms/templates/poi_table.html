@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block body %}
 <nav class="navbar navbar-light bg-light px-3 border-bottom">
-  <a href="/dashboard" class="navbar-brand fw-semibold text-decoration-none text-dark">OSM POI CMS</a>
+  <span class="navbar-brand fw-semibold">
+    <a href="/dashboard" class="navbar-brand fw-semibold text-decoration-none text-dark">OSM POI CMS</a>
+  </span>
   <div class="d-flex align-items-center gap-3">
     <div class="d-flex gap-1">
       <a href="/set-lang?lang=de&next={{ request.url.path }}"
@@ -57,8 +59,9 @@
           <tr>
             <th style="width: 2rem;"></th>
             {% for key, label in columns %}
-            <th style="min-width: {% if key == 'website' or key == 'opening_hours' %}180px{% elif key == 'name' or key == 'addr:street' %}150px{% elif key == 'addr:housenumber' %}60px{% else %}120px{% endif %};">
-              {{ label }}
+            <th data-col="{{ loop.index0 + 1 }}"
+                style="min-width: {% if key == 'website' or key == 'opening_hours' %}180px{% elif key == 'name' or key == 'addr:street' %}150px{% elif key == 'addr:housenumber' %}60px{% else %}120px{% endif %}; cursor: pointer; user-select: none;">
+              {{ label }}<span class="sort-arrow text-muted ms-1">↕</span>
             </th>
             {% endfor %}
           </tr>
@@ -66,11 +69,11 @@
         <tbody>
           {% for poi in pois %}
           {% set i = loop.index0 %}
-          <input type="hidden" name="poi_type_{{ i }}" value="{{ poi.type }}">
-          <input type="hidden" name="poi_id_{{ i }}" value="{{ poi.id }}">
-          <input type="hidden" name="poi_all_tags_{{ i }}" value='{{ poi.tags | tojson }}'>
           <tr>
             <td class="text-center">
+              <input type="hidden" name="poi_type_{{ i }}" value="{{ poi.type }}">
+              <input type="hidden" name="poi_id_{{ i }}" value="{{ poi.id }}">
+              <input type="hidden" name="poi_all_tags_{{ i }}" value='{{ poi.tags | tojson }}'>
               <a href="https://www.openstreetmap.org/{{ poi.type }}/{{ poi.id }}"
                  target="_blank" title="{{ t.table_osm_link_title }}" class="text-decoration-none">🔗</a>
             </td>
@@ -93,6 +96,41 @@
       <button type="submit" class="btn btn-primary">{{ t.table_save_btn }}</button>
     </div>
   </form>
+
+  <script>
+    let sortCol = null, sortAsc = true;
+
+    document.querySelectorAll('th[data-col]').forEach(th => {
+      th.addEventListener('click', () => {
+        const col = parseInt(th.dataset.col);
+        if (sortCol === col) sortAsc = !sortAsc;
+        else { sortCol = col; sortAsc = true; }
+        sortTable(col, sortAsc);
+        updateArrows();
+      });
+    });
+
+    function sortTable(col, asc) {
+      const tbody = document.querySelector('tbody');
+      Array.from(tbody.querySelectorAll('tr'))
+        .sort((a, b) => {
+          const va = a.cells[col]?.querySelector('input[type=text]')?.value.trim() ?? '';
+          const vb = b.cells[col]?.querySelector('input[type=text]')?.value.trim() ?? '';
+          if (va === '' && vb === '') return 0;
+          if (va === '') return 1;
+          if (vb === '') return -1;
+          return asc ? va.localeCompare(vb) : vb.localeCompare(va);
+        })
+        .forEach(r => tbody.appendChild(r));
+    }
+
+    function updateArrows() {
+      document.querySelectorAll('th[data-col]').forEach(th => {
+        const arrow = th.querySelector('.sort-arrow');
+        arrow.textContent = parseInt(th.dataset.col) === sortCol ? (sortAsc ? '↑' : '↓') : '↕';
+      });
+    }
+  </script>
 
   {% endif %}
 </div>
