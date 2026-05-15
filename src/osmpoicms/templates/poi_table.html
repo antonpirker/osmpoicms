@@ -162,7 +162,6 @@
         setMarker(poi);
       });
     } else {
-      leafletMap.setView([poi.lat, poi.lon], 16);
       setMarker(poi);
     }
   }
@@ -171,6 +170,7 @@
     if (marker) marker.remove();
     marker = L.marker([poi.lat, poi.lon]).addTo(leafletMap);
     marker.bindPopup(poi.name).openPopup();
+    leafletMap.panTo([poi.lat, poi.lon]);
   }
 
   function closeMap() {
