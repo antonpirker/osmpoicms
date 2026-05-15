@@ -44,4 +44,4 @@ async def fetch_pois(relation_id: int, category: str) -> list[dict]:
         }
         for el in r.json().get("elements", [])
     ]
-    return sorted(pois, key=lambda p: p["tags"].get("name", "").lower())
+    return sorted(pois, key=lambda p: (0, p["tags"]["name"].lower()) if p["tags"].get("name") else (1, ""))
