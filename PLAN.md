@@ -194,7 +194,7 @@ On partial failure: show which elements succeeded and which failed, keep changes
 
 ## Community Search
 
-Austrian municipalities = OSM `admin_level=8` + `boundary=administrative`.
+Austrian municipalities = OSM `boundary=administrative` with `admin_level=8` (regular Gemeinden) or `admin_level=6` (Statutarstädte: Innsbruck, Graz, Salzburg, Wien, etc. — they also serve as Bezirk).
 
 **Lookup approach:** Nominatim structured search:
 ```
