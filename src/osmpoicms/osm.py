@@ -20,11 +20,13 @@ async def search_communities(q: str) -> list[dict]:
         )
         r.raise_for_status()
 
-    # admin_level=8: regular Gemeinden
-    # admin_level=6: Statutarstädte (Innsbruck, Graz, Salzburg, Wien, ...) which also serve as Bezirk
+    # 6: Statutarstädte (Innsbruck, Graz, Salzburg, Wien, ...)
+    # 8: regular Gemeinden
+    # 9: Stadtbezirke (e.g. Vienna's 23 districts)
+    # 10: Ortschaften / Katastralgemeinden
     return [
         {"id": item["osm_id"], "name": item["display_name"].split(",")[0].strip()}
         for item in r.json()
         if item.get("osm_type") == "relation"
-        and item.get("extratags", {}).get("admin_level") in ("6", "8")
+        and item.get("extratags", {}).get("admin_level") in ("6", "8", "9", "10")
     ][:5]
