@@ -63,12 +63,15 @@ CATEGORY_TAGS: dict[str, list[tuple[str, str]]] = {
     "leisure": [
         ("leisure", "park"),
         ("leisure", "swimming_pool"),
+        ("leisure", "water_park"),
+        ("amenity", "public_bath"),
         ("leisure", "sports_centre"),
         ("leisure", "fitness_centre"),
         ("leisure", "tennis"),
         ("leisure", "playground"),
         ("amenity", "theatre"),
         ("amenity", "cinema"),
+        ("tourism", "museum"),
     ],
 }
 
