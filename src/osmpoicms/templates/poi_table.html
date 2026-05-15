@@ -140,10 +140,13 @@
   // --- row highlight on edit ---
   document.querySelectorAll('tbody input[type=text]').forEach(input => {
     input.addEventListener('input', () => {
+      const origVal = input.closest('td').querySelector('input[type=hidden]').value;
+      input.classList.toggle('fw-bold', input.value !== origVal);
+
       const row = input.closest('tr');
-      const changed = Array.from(row.querySelectorAll('input[type=text]'))
+      const rowChanged = Array.from(row.querySelectorAll('input[type=text]'))
         .some(inp => inp.value !== inp.closest('td').querySelector('input[type=hidden]').value);
-      row.classList.toggle('table-warning', changed);
+      row.classList.toggle('table-warning', rowChanged);
     });
   });
 
