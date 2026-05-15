@@ -14,7 +14,7 @@ templates = Jinja2Templates(directory=Path(__file__).parent.parent / "templates"
 async def index(request: Request, error: str = ""):
     if get_session(request):
         return RedirectResponse("/dashboard")
-    return templates.TemplateResponse("landing.html", {"request": request, "error": error})
+    return templates.TemplateResponse(request, "landing.html", {"error": error})
 
 
 @router.get("/dashboard")
@@ -22,6 +22,4 @@ async def dashboard(request: Request):
     session = get_session(request)
     if not session:
         return RedirectResponse("/")
-    return templates.TemplateResponse(
-        "dashboard.html", {"request": request, "user": session["user"]}
-    )
+    return templates.TemplateResponse(request, "dashboard.html", {"user": session["user"]})
