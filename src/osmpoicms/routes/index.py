@@ -14,8 +14,10 @@ templates = Jinja2Templates(directory=Path(__file__).parent.parent / "templates"
 @router.get("/")
 async def index(request: Request, error: str = ""):
     if get_session(request):
-        return RedirectResponse("/dashboard")
-    return templates.TemplateResponse(request, "landing.html", {"error": error})
+        return RedirectResponse("/dashboard", status_code=302)
+    response = templates.TemplateResponse(request, "landing.html", {"error": error})
+    response.headers["Cache-Control"] = "no-store"
+    return response
 
 
 @router.get("/dashboard")
