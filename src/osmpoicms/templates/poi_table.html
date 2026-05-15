@@ -6,9 +6,10 @@
   </span>
   <div class="d-flex align-items-center gap-3">
     <div class="d-flex gap-1">
-      <a href="/set-lang?lang=de&next={{ request.url.path }}"
+      {% set _back = "/dashboard?community_id=" ~ community_id ~ "&community_name=" ~ (community_name | urlencode) ~ "&category=" ~ category %}
+      <a href="/set-lang?lang=de&next={{ _back | urlencode }}"
          class="btn btn-sm {% if lang == 'de' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">DE</a>
-      <a href="/set-lang?lang=en&next={{ request.url.path }}"
+      <a href="/set-lang?lang=en&next={{ _back | urlencode }}"
          class="btn btn-sm {% if lang == 'en' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">EN</a>
     </div>
     <span class="text-muted small">{{ user.display_name }}</span>
