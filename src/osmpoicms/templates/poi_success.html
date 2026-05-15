@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block body %}
+<nav class="navbar navbar-light bg-light px-3 border-bottom">
+  <span class="navbar-brand fw-semibold">OSM POI CMS</span>
+  <div class="d-flex align-items-center gap-3">
+    <span class="text-muted small">{{ user.display_name }}</span>
+    <a href="/auth/logout" class="btn btn-outline-secondary btn-sm">Logout</a>
+  </div>
+</nav>
+
+<div class="container mt-4" style="max-width: 720px;">
+
+  {% set failed = results | selectattr("ok", "equalto", false) | list %}
+  {% set succeeded = results | selectattr("ok", "equalto", true) | list %}
+
+  {% if failed %}
+  <div class="alert alert-warning">
+    {{ succeeded | length }} of {{ results | length }} POI{{ "s" if results | length != 1 }} pushed successfully.
+    {{ failed | length }} failed.
+  </div>
+  {% else %}
+  <div class="alert alert-success">
+    All {{ results | length }} POI{{ "s" if results | length != 1 }} pushed to OSM successfully.
+  </div>
+  {% endif %}
+
+  <p class="text-muted small mb-3">
+    Changeset:
+    <a href="https://www.openstreetmap.org/changeset/{{ changeset_id }}" target="_blank">
+      #{{ changeset_id }} 🔗
+    </a>
+  </p>
+
+  {% for r in results %}
+  <div class="card mb-2">
+    <div class="card-body py-2 px-3 d-flex align-items-center gap-2">
+      {% if r.ok %}
+      <span class="text-success fw-bold">✓</span>
+      {% else %}
+      <span class="text-danger fw-bold">✗</span>
+      {% endif %}
+      <strong>{{ r.name }}</strong>
+      <a href="https://www.openstreetmap.org/{{ r.type }}/{{ r.id }}"
+         target="_blank" class="text-muted small text-decoration-none ms-auto">{{ r.type }}/{{ r.id }} 🔗</a>
+      {% if not r.ok %}
+      <span class="text-danger small">{{ r.error }}</span>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+
+  <div class="mt-4">
+    <a href="/dashboard?community_id={{ community_id }}&community_name={{ community_name | urlencode }}&category={{ category }}"
+       class="btn btn-primary">← Back to editing</a>
+  </div>
+
+</div>
+{% endblock %}
