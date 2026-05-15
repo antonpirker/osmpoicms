@@ -83,6 +83,7 @@ _COMMON_COLUMNS: list[tuple[str, str]] = [
 
 _EXTRA_COLUMNS: dict[str, list[tuple[str, str]]] = {
     "restaurants": [("cuisine", "Cuisine")],
+    "huts": [("ele", "Elevation (m)")],
     "hotels": [("stars", "Stars"), ("rooms", "Rooms")],
     "doctors": [("healthcare:speciality", "Speciality")],
     "banks": [("operator", "Operator")],
