@@ -7,6 +7,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 from osmpoicms.categories import CATEGORIES, get_columns
+from osmpoicms.i18n import get_t
 from osmpoicms.osm_write import (
     apply_tag_changes,
     close_changeset,
@@ -42,6 +43,7 @@ async def show_pois(
         error = "Failed to load POIs. Please try again."
 
     category_label = next((label for val, label in CATEGORIES if val == category), category)
+    lang, t = get_t(request)
 
     return templates.TemplateResponse(request, "poi_table.html", {
         "user": session["user"],
@@ -54,6 +56,8 @@ async def show_pois(
         "poi_count": len(pois),
         "limited": len(pois) == 200,
         "error": error,
+        "t": t,
+        "lang": lang,
     })
 
 
@@ -100,12 +104,15 @@ async def confirm_pois(request: Request):
                 "new_tags_json": json.dumps(new_tags),
             })
 
+    lang, t = get_t(request)
     return templates.TemplateResponse(request, "poi_confirm.html", {
         "user": session["user"],
         "community_id": form.get("community_id"),
         "community_name": form.get("community_name"),
         "category": category,
         "changed": changed,
+        "t": t,
+        "lang": lang,
     })
 
 
@@ -149,6 +156,7 @@ async def save_pois(request: Request):
 
     await close_changeset(token, changeset_id)
 
+    lang, t = get_t(request)
     return templates.TemplateResponse(request, "poi_success.html", {
         "user": session["user"],
         "changeset_id": changeset_id,
@@ -156,4 +164,6 @@ async def save_pois(request: Request):
         "community_id": form.get("community_id"),
         "community_name": form.get("community_name"),
         "category": form.get("category"),
+        "t": t,
+        "lang": lang,
     })

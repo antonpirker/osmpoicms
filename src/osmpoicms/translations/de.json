@@ -1,0 +1,45 @@
+{
+  "landing_tagline": "POI-Daten für österreichische Gemeinden auf OpenStreetMap verwalten.",
+  "landing_connect_btn": "Mit meinem OpenStreetMap.org-Konto verbinden",
+  "landing_auth_failed": "Anmeldung fehlgeschlagen. Bitte erneut versuchen.",
+
+  "nav_logout": "Abmelden",
+
+  "dashboard_community_label": "Gemeinde",
+  "dashboard_community_placeholder": "Gemeinde suchen...",
+  "dashboard_category_label": "Kategorie",
+  "dashboard_load_btn": "POIs laden",
+  "dashboard_load_btn_loading": "Wird geladen…",
+
+  "table_back": "← Zurück",
+  "table_result": "Ergebnis",
+  "table_results": "Ergebnisse",
+  "table_limited_suffix": "— auf 200 begrenzt",
+  "table_limited_warning": "Ergebnis auf 200 begrenzt – nicht alle POIs in diesem Gebiet werden angezeigt.",
+  "table_no_pois_prefix": "Keine POIs dieser Kategorie gefunden in",
+  "table_save_btn": "Änderungen speichern",
+  "table_osm_link_title": "Auf OpenStreetMap anzeigen",
+
+  "confirm_no_changes": "Keine Änderungen zu speichern.",
+  "confirm_back": "← Zurück",
+  "confirm_title": "Änderungen überprüfen",
+  "confirm_will_update": "POI wird aktualisiert.",
+  "confirm_will_update_plural": "POIs werden aktualisiert.",
+  "confirm_comment_label": "Kommentar",
+  "confirm_comment_placeholder": "z. B. Fehlende Kontaktdaten ergänzt",
+  "confirm_comment_hint": "Max. 255 Zeichen.",
+  "confirm_source_label": "Quelle",
+  "confirm_source_placeholder": "z. B. Lokales Wissen, offizielle Website",
+  "confirm_source_hint": "Max. 255 Zeichen. Optional.",
+  "confirm_back_to_edit": "← Zurück zur Bearbeitung",
+  "confirm_push_btn": "Bestätigen &amp; auf OSM speichern",
+  "confirm_push_btn_loading": "Wird auf OSM gespeichert…",
+
+  "success_of": "von",
+  "success_pushed": "erfolgreich gespeichert.",
+  "success_failed": "fehlgeschlagen.",
+  "success_all_prefix": "Alle",
+  "success_all_suffix": "erfolgreich auf OSM gespeichert.",
+  "success_changeset_label": "Changeset:",
+  "success_back_to_edit": "← Zurück zur Bearbeitung"
+}

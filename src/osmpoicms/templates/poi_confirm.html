@@ -3,22 +3,28 @@
 <nav class="navbar navbar-light bg-light px-3 border-bottom">
   <span class="navbar-brand fw-semibold">OSM POI CMS</span>
   <div class="d-flex align-items-center gap-3">
+    <div class="d-flex gap-1">
+      <a href="/set-lang?lang=de&next={{ request.url.path }}"
+         class="btn btn-sm {% if lang == 'de' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">DE</a>
+      <a href="/set-lang?lang=en&next={{ request.url.path }}"
+         class="btn btn-sm {% if lang == 'en' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">EN</a>
+    </div>
     <span class="text-muted small">{{ user.display_name }}</span>
-    <a href="/auth/logout" class="btn btn-outline-secondary btn-sm">Logout</a>
+    <a href="/auth/logout" class="btn btn-outline-secondary btn-sm">{{ t.nav_logout }}</a>
   </div>
 </nav>
 
 <div class="container mt-4" style="max-width: 720px;">
 
   {% if not changed %}
-  <div class="alert alert-info">No changes to save.</div>
+  <div class="alert alert-info">{{ t.confirm_no_changes }}</div>
   <a href="/dashboard?community_id={{ community_id }}&community_name={{ community_name | urlencode }}&category={{ category }}"
-     class="btn btn-outline-secondary">← Back</a>
+     class="btn btn-outline-secondary">{{ t.confirm_back }}</a>
 
   {% else %}
-  <h5 class="mb-1">Review your changes</h5>
+  <h5 class="mb-1">{{ t.confirm_title }}</h5>
   <p class="text-muted small mb-3">
-    {{ changed | length }} POI{{ "s" if changed | length != 1 }} will be updated.
+    {{ changed | length }} {{ t.confirm_will_update if changed | length == 1 else t.confirm_will_update_plural }}
   </p>
 
   {% for poi in changed %}
@@ -61,26 +67,26 @@
 
     <div class="mb-3">
       <label class="form-label fw-semibold" for="comment">
-        Comment <span class="text-danger">*</span>
+        {{ t.confirm_comment_label }} <span class="text-danger">*</span>
       </label>
       <input type="text" class="form-control" id="comment" name="comment"
-             maxlength="255" required placeholder="e.g. Add missing contact details">
-      <div class="form-text">Max 255 characters.</div>
+             maxlength="255" required placeholder="{{ t.confirm_comment_placeholder }}">
+      <div class="form-text">{{ t.confirm_comment_hint }}</div>
     </div>
 
     <div class="mb-4">
-      <label class="form-label fw-semibold" for="source">Source</label>
+      <label class="form-label fw-semibold" for="source">{{ t.confirm_source_label }}</label>
       <input type="text" class="form-control" id="source" name="source"
-             maxlength="255" placeholder="e.g. local knowledge, official website">
-      <div class="form-text">Max 255 characters. Optional.</div>
+             maxlength="255" placeholder="{{ t.confirm_source_placeholder }}">
+      <div class="form-text">{{ t.confirm_source_hint }}</div>
     </div>
 
     <div class="d-flex gap-2">
       <a href="/dashboard?community_id={{ community_id }}&community_name={{ community_name | urlencode }}&category={{ category }}"
-         class="btn btn-outline-secondary">← Back to editing</a>
+         class="btn btn-outline-secondary">{{ t.confirm_back_to_edit }}</a>
       <button type="submit" id="save-btn" class="btn btn-primary">
         <span id="save-spinner" class="spinner-border spinner-border-sm me-1 d-none" role="status"></span>
-        <span id="save-label">Confirm &amp; push to OSM</span>
+        <span id="save-label">{{ t.confirm_push_btn }}</span>
       </button>
     </div>
   </form>
@@ -90,7 +96,7 @@
       const btn = document.getElementById('save-btn');
       btn.disabled = true;
       document.getElementById('save-spinner').classList.remove('d-none');
-      document.getElementById('save-label').textContent = 'Pushing to OSM…';
+      document.getElementById('save-label').textContent = {{ t.confirm_push_btn_loading | tojson }};
     });
   </script>
   {% endif %}

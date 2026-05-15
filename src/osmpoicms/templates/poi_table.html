@@ -3,8 +3,14 @@
 <nav class="navbar navbar-light bg-light px-3 border-bottom">
   <span class="navbar-brand fw-semibold">OSM POI CMS</span>
   <div class="d-flex align-items-center gap-3">
+    <div class="d-flex gap-1">
+      <a href="/set-lang?lang=de&next={{ request.url.path }}"
+         class="btn btn-sm {% if lang == 'de' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">DE</a>
+      <a href="/set-lang?lang=en&next={{ request.url.path }}"
+         class="btn btn-sm {% if lang == 'en' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">EN</a>
+    </div>
     <span class="text-muted small">{{ user.display_name }}</span>
-    <a href="/auth/logout" class="btn btn-outline-secondary btn-sm">Logout</a>
+    <a href="/auth/logout" class="btn btn-outline-secondary btn-sm">{{ t.nav_logout }}</a>
   </div>
 </nav>
 
@@ -12,11 +18,11 @@
 
   <div class="d-flex align-items-center gap-3 mb-3">
     <a href="/dashboard?community_id={{ community_id }}&community_name={{ community_name | urlencode }}&category={{ category }}"
-       class="btn btn-outline-secondary btn-sm">← Back</a>
+       class="btn btn-outline-secondary btn-sm">{{ t.table_back }}</a>
     <h5 class="mb-0">{{ category_label }} in {{ community_name }}</h5>
     {% if not error %}
     <span class="text-muted small">
-      {{ poi_count }} result{{ "s" if poi_count != 1 }}{% if limited %} — limited to 200{% endif %}
+      {{ poi_count }} {{ t.table_result if poi_count == 1 else t.table_results }}{% if limited %} {{ t.table_limited_suffix }}{% endif %}
     </span>
     {% endif %}
   </div>
@@ -25,13 +31,13 @@
   <div class="alert alert-danger">{{ error }}</div>
 
   {% elif poi_count == 0 %}
-  <p class="text-muted">No POIs found for this category in {{ community_name }}.</p>
+  <p class="text-muted">{{ t.table_no_pois_prefix }} {{ community_name }}.</p>
 
   {% else %}
 
   {% if limited %}
   <div class="alert alert-warning py-2 mb-3">
-    Result limited to 200 — not all POIs in this area are shown.
+    {{ t.table_limited_warning }}
   </div>
   {% endif %}
 
@@ -42,7 +48,7 @@
     <input type="hidden" name="poi_count" value="{{ poi_count }}">
 
     <div class="mb-2">
-      <button type="submit" class="btn btn-primary">Save changes</button>
+      <button type="submit" class="btn btn-primary">{{ t.table_save_btn }}</button>
     </div>
 
     <div class="table-responsive">
@@ -66,7 +72,7 @@
           <tr>
             <td class="text-center">
               <a href="https://www.openstreetmap.org/{{ poi.type }}/{{ poi.id }}"
-                 target="_blank" title="View on OpenStreetMap" class="text-decoration-none">🔗</a>
+                 target="_blank" title="{{ t.table_osm_link_title }}" class="text-decoration-none">🔗</a>
             </td>
             {% for key, label in columns %}
             <td class="p-1">
@@ -84,7 +90,7 @@
     </div>
 
     <div class="mt-2 mb-4">
-      <button type="submit" class="btn btn-primary">Save changes</button>
+      <button type="submit" class="btn btn-primary">{{ t.table_save_btn }}</button>
     </div>
   </form>
 

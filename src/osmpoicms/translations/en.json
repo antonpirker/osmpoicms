@@ -1,0 +1,45 @@
+{
+  "landing_tagline": "Manage POI data for Austrian municipalities on OpenStreetMap.",
+  "landing_connect_btn": "Connect to my OpenStreetMap.org account",
+  "landing_auth_failed": "Authentication failed. Please try again.",
+
+  "nav_logout": "Logout",
+
+  "dashboard_community_label": "Community",
+  "dashboard_community_placeholder": "Type to search for a municipality...",
+  "dashboard_category_label": "Category",
+  "dashboard_load_btn": "Load POIs",
+  "dashboard_load_btn_loading": "Loading…",
+
+  "table_back": "← Back",
+  "table_result": "result",
+  "table_results": "results",
+  "table_limited_suffix": "— limited to 200",
+  "table_limited_warning": "Result limited to 200 — not all POIs in this area are shown.",
+  "table_no_pois_prefix": "No POIs found for this category in",
+  "table_save_btn": "Save changes",
+  "table_osm_link_title": "View on OpenStreetMap",
+
+  "confirm_no_changes": "No changes to save.",
+  "confirm_back": "← Back",
+  "confirm_title": "Review your changes",
+  "confirm_will_update": "POI will be updated.",
+  "confirm_will_update_plural": "POIs will be updated.",
+  "confirm_comment_label": "Comment",
+  "confirm_comment_placeholder": "e.g. Add missing contact details",
+  "confirm_comment_hint": "Max 255 characters.",
+  "confirm_source_label": "Source",
+  "confirm_source_placeholder": "e.g. local knowledge, official website",
+  "confirm_source_hint": "Max 255 characters. Optional.",
+  "confirm_back_to_edit": "← Back to editing",
+  "confirm_push_btn": "Confirm &amp; push to OSM",
+  "confirm_push_btn_loading": "Pushing to OSM…",
+
+  "success_of": "of",
+  "success_pushed": "pushed successfully.",
+  "success_failed": "failed.",
+  "success_all_prefix": "All",
+  "success_all_suffix": "pushed to OSM successfully.",
+  "success_changeset_label": "Changeset:",
+  "success_back_to_edit": "← Back to editing"
+}

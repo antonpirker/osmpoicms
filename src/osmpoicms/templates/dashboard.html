@@ -3,8 +3,14 @@
 <nav class="navbar navbar-light bg-light px-3 border-bottom">
   <span class="navbar-brand fw-semibold">OSM POI CMS</span>
   <div class="d-flex align-items-center gap-3">
+    <div class="d-flex gap-1">
+      <a href="/set-lang?lang=de&next={{ request.url.path }}"
+         class="btn btn-sm {% if lang == 'de' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">DE</a>
+      <a href="/set-lang?lang=en&next={{ request.url.path }}"
+         class="btn btn-sm {% if lang == 'en' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">EN</a>
+    </div>
     <span class="text-muted small">{{ user.display_name }}</span>
-    <a href="/auth/logout" class="btn btn-outline-secondary btn-sm">Logout</a>
+    <a href="/auth/logout" class="btn btn-outline-secondary btn-sm">{{ t.nav_logout }}</a>
   </div>
 </nav>
 
@@ -12,10 +18,10 @@
   <form method="post" action="/pois" id="poi-form">
 
     <div class="mb-4">
-      <label class="form-label fw-semibold">Community</label>
+      <label class="form-label fw-semibold">{{ t.dashboard_community_label }}</label>
       <div class="position-relative">
         <input type="text" id="community-input" class="form-control pe-5"
-               placeholder="Type to search for a municipality..." autocomplete="off"
+               placeholder="{{ t.dashboard_community_placeholder }}" autocomplete="off"
                value="{{ prefill_community_name }}">
         <span id="community-spinner"
               class="position-absolute top-50 end-0 translate-middle-y me-2 d-none">
@@ -28,7 +34,7 @@
     </div>
 
     <div class="mb-4">
-      <label class="form-label fw-semibold">Category</label>
+      <label class="form-label fw-semibold">{{ t.dashboard_category_label }}</label>
       <div class="row row-cols-2 g-2">
         {% for value, label in categories %}
         <div class="col">
@@ -44,7 +50,7 @@
 
     <button type="submit" id="load-btn" class="btn btn-primary" disabled>
       <span id="load-spinner" class="spinner-border spinner-border-sm me-1 d-none" role="status"></span>
-      <span id="load-label">Load POIs</span>
+      <span id="load-label">{{ t.dashboard_load_btn }}</span>
     </button>
 
   </form>
@@ -57,6 +63,7 @@
   const communityName    = document.getElementById('community-name');
   const loadBtn          = document.getElementById('load-btn');
   const communitySpinner = document.getElementById('community-spinner');
+  const loadingText      = {{ t.dashboard_load_btn_loading | tojson }};
 
   function checkReady() {
     loadBtn.disabled = !(communityId.value && document.querySelector('.category-radio:checked'));
@@ -67,7 +74,7 @@
   document.getElementById('poi-form').addEventListener('submit', () => {
     loadBtn.disabled = true;
     document.getElementById('load-spinner').classList.remove('d-none');
-    document.getElementById('load-label').textContent = 'Loading…';
+    document.getElementById('load-label').textContent = loadingText;
   });
 
   // Restore pre-selected category and initial button state
