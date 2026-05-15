@@ -98,7 +98,7 @@
   </form>
 
   <script>
-    let sortCol = null, sortAsc = true;
+    let sortCol = 1, sortAsc = true;
 
     document.querySelectorAll('th[data-col]').forEach(th => {
       th.addEventListener('click', () => {
@@ -123,6 +123,8 @@
         })
         .forEach(r => tbody.appendChild(r));
     }
+
+    updateArrows();
 
     function updateArrows() {
       document.querySelectorAll('th[data-col]').forEach(th => {
