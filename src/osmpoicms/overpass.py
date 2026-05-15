@@ -6,9 +6,14 @@ _OVERPASS_URL = "https://overpass-api.de/api/interpreter"
 _HEADERS = {"User-Agent": "osmpoicms/1.0 (anton@maptoolkit.com)"}
 
 
-def _build_query(area_id: int, tags: list[tuple[str, str]]) -> str:
+# Categories where private/members-only POIs should be excluded
+_FILTER_PRIVATE = {"leisure", "huts"}
+
+
+def _build_query(area_id: int, tags: list[tuple[str, str]], filter_private: bool = False) -> str:
+    access_filter = '["access"!="private"]' if filter_private else ""
     statements = "\n".join(
-        f'  {etype}["{k}"="{v}"](area.searchArea);'
+        f'  {etype}["{k}"="{v}"]{access_filter}(area.searchArea);'
         for k, v in tags
         for etype in ("node", "way", "relation")
     )
@@ -23,7 +28,7 @@ def _build_query(area_id: int, tags: list[tuple[str, str]]) -> str:
 async def fetch_pois(relation_id: int, category: str) -> list[dict]:
     tags = CATEGORY_TAGS[category]
     area_id = relation_id + 3_600_000_000
-    query = _build_query(area_id, tags)
+    query = _build_query(area_id, tags, filter_private=category in _FILTER_PRIVATE)
 
     async with httpx.AsyncClient() as client:
         r = await client.post(
