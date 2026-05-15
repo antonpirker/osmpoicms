@@ -2,7 +2,6 @@
 .direnv/
 __pycache__/
 *.pyc
-.python-version
 .venv/
 dist/
 *.egg-info/
