@@ -43,7 +43,8 @@
     </div>
 
     <button type="submit" id="load-btn" class="btn btn-primary" disabled>
-      Load POIs
+      <span id="load-spinner" class="spinner-border spinner-border-sm me-1 d-none" role="status"></span>
+      <span id="load-label">Load POIs</span>
     </button>
 
   </form>
@@ -62,6 +63,12 @@
   }
 
   document.querySelectorAll('.category-radio').forEach(r => r.addEventListener('change', checkReady));
+
+  document.getElementById('poi-form').addEventListener('submit', () => {
+    loadBtn.disabled = true;
+    document.getElementById('load-spinner').classList.remove('d-none');
+    document.getElementById('load-label').textContent = 'Loading…';
+  });
 
   // Restore pre-selected category and initial button state
   const prefillCategory = {{ prefill_category | tojson }};
