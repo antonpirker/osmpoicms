@@ -55,6 +55,8 @@ CATEGORY_TAGS: dict[str, list[tuple[str, str]]] = {
         ("shop", "toys"),
         ("shop", "books"),
         ("shop", "department_store"),
+        ("shop", "general"),
+        ("shop", "variety_store"),
     ],
     "banks": [
         ("amenity", "bank"),
