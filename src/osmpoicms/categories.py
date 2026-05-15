@@ -194,6 +194,7 @@ CATEGORY_TAGS: dict[str, list[tuple[str, str]]] = {
         ("amenity", "theatre"),
         ("amenity", "cinema"),
         ("tourism", "museum"),
+        ("amenity", "ski_school"),
     ],
 }
 
