@@ -6,7 +6,7 @@ from fastapi import APIRouter, Form, Request
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
-from osmpoicms.categories import CATEGORIES, get_columns
+from osmpoicms.categories import get_columns
 from osmpoicms.i18n import get_t
 from osmpoicms.osm_write import (
     apply_tag_changes,
@@ -42,7 +42,6 @@ async def show_pois(
     except Exception:
         error = "Failed to load POIs. Please try again."
 
-    category_label = next((label for val, label in CATEGORIES if val == category), category)
     lang, t = get_t(request)
 
     return templates.TemplateResponse(request, "poi_table.html", {
@@ -50,7 +49,6 @@ async def show_pois(
         "community_id": community_id,
         "community_name": community_name,
         "category": category,
-        "category_label": category_label,
         "pois": pois,
         "columns": get_columns(category),
         "poi_count": len(pois),

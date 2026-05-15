@@ -41,5 +41,16 @@
   "success_all_prefix": "Alle",
   "success_all_suffix": "erfolgreich auf OSM gespeichert.",
   "success_changeset_label": "Changeset:",
-  "success_back_to_edit": "← Zurück zur Bearbeitung"
+  "success_back_to_edit": "← Zurück zur Bearbeitung",
+
+  "category_restaurants": "Restaurants",
+  "category_huts": "Berghütten",
+  "category_bars": "Bars & Nachtleben",
+  "category_hotels": "Hotels",
+  "category_doctors": "Ärzte",
+  "category_pharmacies": "Apotheken",
+  "category_supermarkets": "Supermärkte",
+  "category_shopping": "Einkaufen",
+  "category_banks": "Banken & Geldautomaten",
+  "category_leisure": "Freizeit"
 }

@@ -19,7 +19,7 @@
   <div class="d-flex align-items-center gap-3 mb-3">
     <a href="/dashboard?community_id={{ community_id }}&community_name={{ community_name | urlencode }}&category={{ category }}"
        class="btn btn-outline-secondary btn-sm">{{ t.table_back }}</a>
-    <h5 class="mb-0">{{ category_label }} in {{ community_name }}</h5>
+    <h5 class="mb-0">{{ t["category_" ~ category] }} in {{ community_name }}</h5>
     {% if not error %}
     <span class="text-muted small">
       {{ poi_count }} {{ t.table_result if poi_count == 1 else t.table_results }}{% if limited %} {{ t.table_limited_suffix }}{% endif %}

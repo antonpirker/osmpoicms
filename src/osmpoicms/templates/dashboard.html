@@ -41,7 +41,7 @@
           <div class="form-check">
             <input class="form-check-input category-radio" type="radio"
                    name="category" id="cat-{{ value }}" value="{{ value }}">
-            <label class="form-check-label" for="cat-{{ value }}">{{ label }}</label>
+            <label class="form-check-label" for="cat-{{ value }}">{{ t["category_" ~ value] }}</label>
           </div>
         </div>
         {% endfor %}
