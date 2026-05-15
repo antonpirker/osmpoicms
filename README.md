@@ -50,9 +50,11 @@ uv sync
 **mkcert** for local HTTPS (required by OSM OAuth2):
 
 ```bash
-# Install mkcert
-sudo apt install mkcert   # Debian/Ubuntu
-brew install mkcert        # macOS
+# Install mkcert (Debian/Ubuntu)
+sudo apt install mkcert   
+
+# -or- Install mkcert (macOS)
+brew install mkcert
 
 # Create local SSL certificate (run once)
 mkcert -install
