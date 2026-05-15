@@ -1,5 +1,6 @@
 CATEGORIES: list[tuple[str, str]] = [
     ("restaurants", "Restaurants"),
+    ("huts", "Mountain Huts"),
     ("bars", "Bars & Nightlife"),
     ("hotels", "Hotels"),
     ("doctors", "Doctors"),
@@ -15,8 +16,11 @@ CATEGORY_TAGS: dict[str, list[tuple[str, str]]] = {
         ("amenity", "restaurant"),
         ("amenity", "cafe"),
         ("amenity", "fast_food"),
+    ],
+    "huts": [
         ("tourism", "alpine_hut"),
         ("tourism", "wilderness_hut"),
+        ("amenity", "shelter"),
     ],
     "bars": [
         ("amenity", "bar"),
