@@ -14,8 +14,12 @@
     <div class="mb-4">
       <label class="form-label fw-semibold">Community</label>
       <div class="position-relative">
-        <input type="text" id="community-input" class="form-control"
+        <input type="text" id="community-input" class="form-control pe-5"
                placeholder="Type to search for a municipality..." autocomplete="off">
+        <span id="community-spinner"
+              class="position-absolute top-50 end-0 translate-middle-y me-2 d-none">
+          <span class="spinner-border spinner-border-sm text-secondary" role="status"></span>
+        </span>
         <ul id="community-dropdown" class="dropdown-menu w-100" style="max-height: 200px; overflow-y: auto;"></ul>
       </div>
       <input type="hidden" name="community_id" id="community-id">
@@ -45,11 +49,12 @@
 </div>
 
 <script>
-  const communityInput = document.getElementById('community-input');
-  const dropdown       = document.getElementById('community-dropdown');
-  const communityId    = document.getElementById('community-id');
-  const communityName  = document.getElementById('community-name');
-  const loadBtn        = document.getElementById('load-btn');
+  const communityInput   = document.getElementById('community-input');
+  const dropdown         = document.getElementById('community-dropdown');
+  const communityId      = document.getElementById('community-id');
+  const communityName    = document.getElementById('community-name');
+  const loadBtn          = document.getElementById('load-btn');
+  const communitySpinner = document.getElementById('community-spinner');
 
   function checkReady() {
     loadBtn.disabled = !(communityId.value && document.querySelector('.category-radio:checked'));
@@ -66,13 +71,18 @@
     const q = communityInput.value.trim();
     if (q.length < 2) { closeDropdown(); return; }
     debounce = setTimeout(async () => {
-      const res   = await fetch('/api/communities?q=' + encodeURIComponent(q));
-      const items = await res.json();
-      if (!items.length) { closeDropdown(); return; }
-      dropdown.innerHTML = items.map(c =>
-        `<li><a class="dropdown-item" href="#" data-id="${c.id}" data-name="${c.name}">${c.name}</a></li>`
-      ).join('');
-      dropdown.classList.add('show');
+      communitySpinner.classList.remove('d-none');
+      try {
+        const res   = await fetch('/api/communities?q=' + encodeURIComponent(q));
+        const items = await res.json();
+        if (!items.length) { closeDropdown(); return; }
+        dropdown.innerHTML = items.map(c =>
+          `<li><a class="dropdown-item" href="#" data-id="${c.id}" data-name="${c.name}">${c.name}</a></li>`
+        ).join('');
+        dropdown.classList.add('show');
+      } finally {
+        communitySpinner.classList.add('d-none');
+      }
     }, 300);
   });
 
