@@ -28,3 +28,7 @@ def get_lang(request: Request) -> str:
 def get_t(request: Request) -> tuple[str, dict]:
     lang = get_lang(request)
     return lang, _translations[lang]
+
+
+def all_translations() -> dict:
+    return _translations

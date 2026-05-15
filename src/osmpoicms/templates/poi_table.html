@@ -6,14 +6,13 @@
   </span>
   <div class="d-flex align-items-center gap-3">
     <div class="d-flex gap-1">
-      {% set _back = "/dashboard?community_id=" ~ community_id ~ "&community_name=" ~ (community_name | urlencode) ~ "&category=" ~ category %}
-      <a href="/set-lang?lang=de&next={{ _back | urlencode }}"
-         class="btn btn-sm {% if lang == 'de' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">DE</a>
-      <a href="/set-lang?lang=en&next={{ _back | urlencode }}"
-         class="btn btn-sm {% if lang == 'en' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">EN</a>
+      <button type="button" onclick="switchLang('de')" data-lang-btn="de"
+              class="btn btn-sm {% if lang == 'de' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">DE</button>
+      <button type="button" onclick="switchLang('en')" data-lang-btn="en"
+              class="btn btn-sm {% if lang == 'en' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">EN</button>
     </div>
     <span class="text-muted small">{{ user.display_name }}</span>
-    <a href="/auth/logout" class="btn btn-outline-secondary btn-sm">{{ t.nav_logout }}</a>
+    <a href="/auth/logout" class="btn btn-outline-secondary btn-sm" data-i18n="nav_logout">{{ t.nav_logout }}</a>
   </div>
 </nav>
 
@@ -21,7 +20,7 @@
 
   <div class="d-flex align-items-center gap-3 mb-3">
     <a href="/dashboard?community_id={{ community_id }}&community_name={{ community_name | urlencode }}&category={{ category }}"
-       class="btn btn-outline-secondary btn-sm">{{ t.table_back }}</a>
+       class="btn btn-outline-secondary btn-sm" data-i18n="table_back">{{ t.table_back }}</a>
     <h5 class="mb-0">{{ t["category_" ~ category] }} in {{ community_name }}</h5>
     {% if not error %}
     <span class="text-muted small">
@@ -39,7 +38,7 @@
   {% else %}
 
   {% if limited %}
-  <div class="alert alert-warning py-2 mb-3">
+  <div class="alert alert-warning py-2 mb-3" data-i18n="table_limited_warning">
     {{ t.table_limited_warning }}
   </div>
   {% endif %}
@@ -51,7 +50,7 @@
     <input type="hidden" name="poi_count" value="{{ poi_count }}">
 
     <div class="mb-2">
-      <button type="submit" class="btn btn-primary">{{ t.table_save_btn }}</button>
+      <button type="submit" class="btn btn-primary" data-i18n="table_save_btn">{{ t.table_save_btn }}</button>
     </div>
 
     <div class="table-responsive">
@@ -61,8 +60,9 @@
             <th style="width: 2rem;"></th>
             {% for key, label in columns %}
             <th data-col="{{ loop.index0 + 1 }}"
+                data-i18n="col_{{ key | replace(':', '_') }}"
                 style="min-width: {% if key == 'website' or key == 'opening_hours' %}180px{% elif key == 'name' or key == 'addr:street' %}150px{% elif key == 'addr:housenumber' %}60px{% else %}120px{% endif %}; cursor: pointer; user-select: none;">
-              {{ t["col_" ~ (key | replace(":", "_"))] }}<span class="sort-arrow text-muted ms-1">↕</span>
+              <span data-i18n-label>{{ t["col_" ~ (key | replace(":", "_"))] }}</span><span class="sort-arrow text-muted ms-1">↕</span>
             </th>
             {% endfor %}
           </tr>
@@ -76,7 +76,8 @@
               <input type="hidden" name="poi_id_{{ i }}" value="{{ poi.id }}">
               <input type="hidden" name="poi_all_tags_{{ i }}" value='{{ poi.tags | tojson }}'>
               <a href="https://www.openstreetmap.org/{{ poi.type }}/{{ poi.id }}"
-                 target="_blank" title="{{ t.table_osm_link_title }}" class="text-decoration-none">🔗</a>
+                 target="_blank" data-i18n-title="table_osm_link_title"
+                 title="{{ t.table_osm_link_title }}" class="text-decoration-none">🔗</a>
             </td>
             {% for key, label in columns %}
             <td class="p-1">
@@ -94,47 +95,78 @@
     </div>
 
     <div class="mt-2 mb-4">
-      <button type="submit" class="btn btn-primary">{{ t.table_save_btn }}</button>
+      <button type="submit" class="btn btn-primary" data-i18n="table_save_btn">{{ t.table_save_btn }}</button>
     </div>
   </form>
 
-  <script>
-    let sortCol = 1, sortAsc = true;
-
-    document.querySelectorAll('th[data-col]').forEach(th => {
-      th.addEventListener('click', () => {
-        const col = parseInt(th.dataset.col);
-        if (sortCol === col) sortAsc = !sortAsc;
-        else { sortCol = col; sortAsc = true; }
-        sortTable(col, sortAsc);
-        updateArrows();
-      });
-    });
-
-    function sortTable(col, asc) {
-      const tbody = document.querySelector('tbody');
-      Array.from(tbody.querySelectorAll('tr'))
-        .sort((a, b) => {
-          const va = a.cells[col]?.querySelector('input[type=text]')?.value.trim() ?? '';
-          const vb = b.cells[col]?.querySelector('input[type=text]')?.value.trim() ?? '';
-          if (va === '' && vb === '') return 0;
-          if (va === '') return 1;
-          if (vb === '') return -1;
-          return asc ? va.localeCompare(vb) : vb.localeCompare(va);
-        })
-        .forEach(r => tbody.appendChild(r));
-    }
-
-    updateArrows();
-
-    function updateArrows() {
-      document.querySelectorAll('th[data-col]').forEach(th => {
-        const arrow = th.querySelector('.sort-arrow');
-        arrow.textContent = parseInt(th.dataset.col) === sortCol ? (sortAsc ? '↑' : '↓') : '↕';
-      });
-    }
-  </script>
-
   {% endif %}
 </div>
+
+<script>
+  const ALL_T = {{ all_translations | tojson }};
+  let currentLang = {{ lang | tojson }};
+
+  function switchLang(lang) {
+    document.cookie = `lang=${lang}; path=/; max-age=${365 * 24 * 3600}; samesite=lax`;
+    currentLang = lang;
+    const t = ALL_T[lang];
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (t[key] !== undefined) el.textContent = t[key];
+    });
+
+    document.querySelectorAll('th[data-i18n]').forEach(th => {
+      const key = th.dataset.i18n;
+      if (t[key] !== undefined) th.querySelector('[data-i18n-label]').textContent = t[key];
+    });
+
+    document.querySelectorAll('[data-i18n-title]').forEach(el => {
+      const key = el.dataset.i18nTitle;
+      if (t[key] !== undefined) el.title = t[key];
+    });
+
+    document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+      const active = btn.dataset.langBtn === lang;
+      btn.classList.toggle('btn-secondary', active);
+      btn.classList.toggle('btn-outline-secondary', !active);
+    });
+  }
+
+  // --- sorting ---
+  let sortCol = 1, sortAsc = true;
+
+  document.querySelectorAll('th[data-col]').forEach(th => {
+    th.addEventListener('click', () => {
+      const col = parseInt(th.dataset.col);
+      if (sortCol === col) sortAsc = !sortAsc;
+      else { sortCol = col; sortAsc = true; }
+      sortTable(col, sortAsc);
+      updateArrows();
+    });
+  });
+
+  updateArrows();
+
+  function sortTable(col, asc) {
+    const tbody = document.querySelector('tbody');
+    Array.from(tbody.querySelectorAll('tr'))
+      .sort((a, b) => {
+        const va = a.cells[col]?.querySelector('input[type=text]')?.value.trim() ?? '';
+        const vb = b.cells[col]?.querySelector('input[type=text]')?.value.trim() ?? '';
+        if (va === '' && vb === '') return 0;
+        if (va === '') return 1;
+        if (vb === '') return -1;
+        return asc ? va.localeCompare(vb) : vb.localeCompare(va);
+      })
+      .forEach(r => tbody.appendChild(r));
+  }
+
+  function updateArrows() {
+    document.querySelectorAll('th[data-col]').forEach(th => {
+      const arrow = th.querySelector('.sort-arrow');
+      arrow.textContent = parseInt(th.dataset.col) === sortCol ? (sortAsc ? '↑' : '↓') : '↕';
+    });
+  }
+</script>
 {% endblock %}

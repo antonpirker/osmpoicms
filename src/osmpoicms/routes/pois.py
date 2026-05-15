@@ -7,7 +7,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 from osmpoicms.categories import get_columns
-from osmpoicms.i18n import get_t
+from osmpoicms.i18n import all_translations, get_t
 from osmpoicms.osm_write import (
     apply_tag_changes,
     close_changeset,
@@ -56,6 +56,7 @@ async def show_pois(
         "error": error,
         "t": t,
         "lang": lang,
+        "all_translations": all_translations(),
     })
 
 
