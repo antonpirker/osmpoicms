@@ -1,31 +1,31 @@
 import httpx
 
-_NOMINATIM = "https://nominatim.openstreetmap.org"
+_OVERPASS_URL = "https://overpass-api.de/api/interpreter"
 _HEADERS = {"User-Agent": "osmpoicms/1.0 (anton@maptoolkit.com)"}
 
 
 async def search_communities(q: str) -> list[dict]:
+    # Search directly in Overpass for Austrian administrative boundaries by name.
+    # Nominatim is unreliable for this — it returns person names and addresses
+    # before actual Gemeinden when the query matches common words like "Maria".
+    query = f"""
+[out:json][timeout:10];
+area["ISO3166-1"="AT"][admin_level=2]->.at;
+relation["boundary"="administrative"]["admin_level"~"^(6|8|9)$"]["name"~"{q}",i](area.at);
+out tags 8;
+"""
     async with httpx.AsyncClient() as client:
-        r = await client.get(
-            f"{_NOMINATIM}/search",
-            params={
-                "q": q,
-                "countrycodes": "at",
-                "format": "jsonv2",
-                "limit": 15,
-                "extratags": 1,
-            },
+        r = await client.post(
+            _OVERPASS_URL,
+            data={"data": query},
             headers=_HEADERS,
-            timeout=10,
+            timeout=15,
         )
         r.raise_for_status()
 
-    # 6: Statutarstädte (Innsbruck, Graz, Salzburg, Wien, ...)
-    # 8: regular Gemeinden
-    # 9: Stadtbezirke (e.g. Vienna's 23 districts)
-    return [
-        {"id": item["osm_id"], "name": item["display_name"].split(",")[0].strip()}
-        for item in r.json()
-        if item.get("osm_type") == "relation"
-        and (item.get("extratags") or {}).get("admin_level") in ("6", "8", "9")
-    ][:5]
+    elements = r.json().get("elements", [])
+    results = sorted(
+        [{"id": el["id"], "name": el["tags"].get("name", "")} for el in elements],
+        key=lambda x: x["name"].lower(),
+    )
+    return results[:8]
