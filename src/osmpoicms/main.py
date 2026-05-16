@@ -1,6 +1,9 @@
+from pathlib import Path
+
 import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 
@@ -17,6 +20,7 @@ class LocalhostRedirect(BaseHTTPMiddleware):
 
 app = FastAPI(title="OSM POI CMS")
 app.add_middleware(LocalhostRedirect)
+app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
 app.include_router(auth.router)
 app.include_router(api.router)
 app.include_router(pois.router)

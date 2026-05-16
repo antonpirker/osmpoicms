@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&display=swap');
+
+/* Moos Light — Bootstrap overrides */
+:root {
+  --bs-body-font-family:    'DM Sans', system-ui, sans-serif;
+  --bs-body-bg:             #F5F0E8;
+  --bs-body-color:          #2C2820;
+  --bs-secondary-color:     #5C5248;
+
+  --bs-primary:             #4A6741;
+  --bs-primary-rgb:         74, 103, 65;
+
+  --bs-light:               #E8E0D0;
+  --bs-light-rgb:           232, 224, 208;
+  --bs-border-color:        #E8E0D0;
+
+  --bs-link-color:          #4A6741;
+  --bs-link-hover-color:    #7A9E6E;
+}
+
+/* Headings & brand */
+h1, h2, h3, h4, h5, h6, .navbar-brand {
+  font-family: 'Spectral', Georgia, serif;
+}
+
+/* Navbar */
+.navbar.bg-light {
+  background-color: #E8E0D0 !important;
+}
+
+/* Primary button */
+.btn-primary {
+  --bs-btn-bg:                 #4A6741;
+  --bs-btn-border-color:       #4A6741;
+  --bs-btn-color:              #F5F0E8;
+  --bs-btn-hover-bg:           #3d5636;
+  --bs-btn-hover-border-color: #3d5636;
+  --bs-btn-hover-color:        #F5F0E8;
+  --bs-btn-active-bg:          #3d5636;
+  --bs-btn-active-border-color:#3d5636;
+  --bs-btn-active-color:       #F5F0E8;
+  --bs-btn-focus-shadow-rgb:   74, 103, 65;
+}
+
+/* Secondary outline button */
+.btn-outline-secondary {
+  --bs-btn-color:              #5C5248;
+  --bs-btn-border-color:       #E8E0D0;
+  --bs-btn-hover-bg:           #E8E0D0;
+  --bs-btn-hover-color:        #2C2820;
+  --bs-btn-hover-border-color: #E8E0D0;
+  --bs-btn-active-bg:          #E8F0E4;
+  --bs-btn-active-color:       #4A6741;
+}
+
+/* Active lang button (btn-secondary used for active state) */
+.btn-secondary {
+  --bs-btn-bg:                 #E8F0E4;
+  --bs-btn-border-color:       #E8F0E4;
+  --bs-btn-color:              #4A6741;
+  --bs-btn-hover-bg:           #E8F0E4;
+  --bs-btn-hover-color:        #4A6741;
+  --bs-btn-hover-border-color: #E8F0E4;
+  --bs-btn-active-bg:          #E8F0E4;
+  --bs-btn-active-color:       #4A6741;
+}
+
+/* Table */
+.table {
+  --bs-table-border-color: #E8E0D0;
+}
+.table-light {
+  --bs-table-bg:    #E8E0D0;
+  --bs-table-color: #2C2820;
+}
+
+/* Form focus */
+.form-control:focus {
+  border-color: #7A9E6E;
+  box-shadow: 0 0 0 0.2rem rgba(74, 103, 65, 0.15);
+}
+
+/* Focused row in POI table */
+tbody tr:focus-within td {
+  background-color: #E8F0E4 !important;
+}
