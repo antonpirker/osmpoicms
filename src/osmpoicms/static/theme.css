@@ -48,6 +48,9 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
   --bs-btn-active-border-color:#3d5636;
   --bs-btn-active-color:       #F5F0E8;
   --bs-btn-focus-shadow-rgb:   74, 103, 65;
+  --bs-btn-disabled-bg:        #4A6741;
+  --bs-btn-disabled-border-color: #4A6741;
+  --bs-btn-disabled-color:     #F5F0E8;
 }
 
 /* Secondary outline button */
