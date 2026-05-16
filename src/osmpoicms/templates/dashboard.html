@@ -1,18 +1,7 @@
 {% extends "base.html" %}
 {% block body %}
-<nav class="navbar navbar-light bg-light px-3 border-bottom">
-  <a href="/dashboard" class="navbar-brand fw-semibold text-decoration-none text-dark">OpenStreetMap POI Editor</a>
-  <div class="d-flex align-items-center gap-3">
-    <div class="d-flex gap-1">
-      <a href="/set-lang?lang=de&next={{ request.url.path }}"
-         class="btn btn-sm {% if lang == 'de' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">DE</a>
-      <a href="/set-lang?lang=en&next={{ request.url.path }}"
-         class="btn btn-sm {% if lang == 'en' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">EN</a>
-    </div>
-    <span class="text-muted small">{{ user.display_name }}</span>
-    <a href="/auth/logout" class="btn btn-outline-secondary btn-sm">{{ t.nav_logout }}</a>
-  </div>
-</nav>
+{% set lang_next = request.url.path %}
+{% include "_navbar.html" %}
 
 <div class="container mt-4" style="max-width: 640px;">
   <form method="post" action="/pois" id="poi-form">

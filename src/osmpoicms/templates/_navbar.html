@@ -1,0 +1,20 @@
+<nav class="navbar navbar-light bg-light px-3 border-bottom">
+  <a href="/dashboard" class="navbar-brand fw-semibold text-decoration-none text-dark">OpenStreetMap POI Editor</a>
+  <div class="d-flex align-items-center gap-3">
+    <div class="d-flex gap-1">
+      {% if lang_use_js %}
+      <button type="button" onclick="switchLang('de')" data-lang-btn="de"
+              class="btn btn-sm {% if lang == 'de' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">DE</button>
+      <button type="button" onclick="switchLang('en')" data-lang-btn="en"
+              class="btn btn-sm {% if lang == 'en' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">EN</button>
+      {% else %}
+      <a href="/set-lang?lang=de&next={{ lang_next }}"
+         class="btn btn-sm {% if lang == 'de' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">DE</a>
+      <a href="/set-lang?lang=en&next={{ lang_next }}"
+         class="btn btn-sm {% if lang == 'en' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">EN</a>
+      {% endif %}
+    </div>
+    <span class="text-muted small">{{ user.display_name }}</span>
+    <a href="/auth/logout" class="btn btn-outline-secondary btn-sm" data-i18n="nav_logout">{{ t.nav_logout }}</a>
+  </div>
+</nav>

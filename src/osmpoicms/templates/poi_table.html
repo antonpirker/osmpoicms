@@ -2,19 +2,8 @@
 {% block body %}
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 
-<nav class="navbar navbar-light bg-light px-3 border-bottom">
-  <a href="/dashboard" class="navbar-brand fw-semibold text-decoration-none text-dark">OpenStreetMap POI Editor</a>
-  <div class="d-flex align-items-center gap-3">
-    <div class="d-flex gap-1">
-      <button type="button" onclick="switchLang('de')" data-lang-btn="de"
-              class="btn btn-sm {% if lang == 'de' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">DE</button>
-      <button type="button" onclick="switchLang('en')" data-lang-btn="en"
-              class="btn btn-sm {% if lang == 'en' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">EN</button>
-    </div>
-    <span class="text-muted small">{{ user.display_name }}</span>
-    <a href="/auth/logout" class="btn btn-outline-secondary btn-sm" data-i18n="nav_logout">{{ t.nav_logout }}</a>
-  </div>
-</nav>
+{% set lang_use_js = true %}
+{% include "_navbar.html" %}
 
 <div style="display: flex; align-items: flex-start;">
 
