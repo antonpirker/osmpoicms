@@ -53,10 +53,10 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 /* Secondary outline button */
 .btn-outline-secondary {
   --bs-btn-color:              #5C5248;
-  --bs-btn-border-color:       #E8E0D0;
+  --bs-btn-border-color:       #5C5248;
   --bs-btn-hover-bg:           #E8E0D0;
   --bs-btn-hover-color:        #2C2820;
-  --bs-btn-hover-border-color: #E8E0D0;
+  --bs-btn-hover-border-color: #5C5248;
   --bs-btn-active-bg:          #E8F0E4;
   --bs-btn-active-color:       #4A6741;
 }
