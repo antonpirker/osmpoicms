@@ -85,6 +85,12 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
   --bs-table-color: #2C2820;
 }
 
+/* Dropdown */
+.dropdown-item.active, .dropdown-item:active {
+  background-color: #E8F0E4;
+  color: #2C2820;
+}
+
 /* Form focus */
 .form-control:focus {
   border-color: #7A9E6E;
