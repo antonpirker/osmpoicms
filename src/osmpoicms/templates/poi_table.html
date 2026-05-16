@@ -52,7 +52,7 @@
         <input type="hidden" name="category" value="{{ category }}">
         <input type="hidden" name="poi_count" value="{{ poi_count }}">
 
-        <div class="mb-2">
+        <div class="mb-3">
           <button type="submit" class="btn btn-primary" data-i18n="table_save_btn">{{ t.table_save_btn }}</button>
         </div>
 
@@ -80,10 +80,10 @@
                   <input type="hidden" name="poi_all_tags_{{ i }}" value='{{ poi.tags | tojson }}'>
                   <a href="https://www.openstreetmap.org/{{ poi.type }}/{{ poi.id }}"
                      target="_blank" data-i18n-title="table_osm_link_title"
-                     title="{{ t.table_osm_link_title }}" class="text-decoration-none">🔗</a>
+                     title="{{ t.table_osm_link_title }}" class="text-decoration-none link-map">↗</a>
                   {% if poi.lat %}
-                  <button type="button" class="btn btn-link btn-sm p-0 ms-1 map-btn"
-                          data-idx="{{ i }}" title="Map">🗺️</button>
+                  <a href="#" class="text-decoration-none ms-1 link-map map-btn"
+                     data-idx="{{ i }}" title="Map">⊕</a>
                   {% endif %}
                 </td>
                 {% for key, label in columns %}
@@ -135,7 +135,7 @@
   const panel = document.getElementById('map-panel');
 
   document.querySelectorAll('.map-btn').forEach(btn => {
-    btn.addEventListener('click', () => openMap(parseInt(btn.dataset.idx)));
+    btn.addEventListener('click', e => { e.preventDefault(); openMap(parseInt(btn.dataset.idx)); });
   });
 
   function openMap(idx) {

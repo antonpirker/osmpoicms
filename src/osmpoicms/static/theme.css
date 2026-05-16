@@ -116,6 +116,14 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
   box-shadow: 0 0 0 0.2rem rgba(74, 103, 65, 0.15);
 }
 
+/* Table action links */
+.link-map {
+  color: #4A6741;
+}
+.link-map:hover {
+  color: #7A9E6E;
+}
+
 /* MapLibre popup */
 .maplibregl-popup-content {
   font-family: 'Spectral', Georgia, serif;
