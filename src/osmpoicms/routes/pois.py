@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from urllib.parse import quote, urlencode
 
 import httpx
 from fastapi import APIRouter, Form, Request
@@ -19,6 +20,11 @@ from osmpoicms.overpass import fetch_pois
 from osmpoicms.session import get_session
 
 router = APIRouter(prefix="/pois")
+
+
+def _dashboard_next(community_id, community_name, category) -> str:
+    qs = urlencode({"community_id": community_id, "community_name": community_name, "category": category})
+    return quote(f"/dashboard?{qs}", safe="")
 templates = Jinja2Templates(directory=Path(__file__).parent.parent / "templates")
 
 
@@ -103,15 +109,18 @@ async def confirm_pois(request: Request):
                 "new_tags_json": json.dumps(new_tags),
             })
 
+    community_id = form.get("community_id")
+    community_name = form.get("community_name")
     lang, t = get_t(request)
     return templates.TemplateResponse(request, "poi_confirm.html", {
         "user": session["user"],
-        "community_id": form.get("community_id"),
-        "community_name": form.get("community_name"),
+        "community_id": community_id,
+        "community_name": community_name,
         "category": category,
         "changed": changed,
         "t": t,
         "lang": lang,
+        "lang_next": _dashboard_next(community_id, community_name, category),
     })
 
 
@@ -155,14 +164,18 @@ async def save_pois(request: Request):
 
     await close_changeset(token, changeset_id)
 
+    community_id = form.get("community_id")
+    community_name = form.get("community_name")
+    category = form.get("category")
     lang, t = get_t(request)
     return templates.TemplateResponse(request, "poi_success.html", {
         "user": session["user"],
         "changeset_id": changeset_id,
         "results": results,
-        "community_id": form.get("community_id"),
-        "community_name": form.get("community_name"),
-        "category": form.get("category"),
+        "community_id": community_id,
+        "community_name": community_name,
+        "category": category,
         "t": t,
         "lang": lang,
+        "lang_next": _dashboard_next(community_id, community_name, category),
     })
