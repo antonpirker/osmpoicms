@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 {% block body %}
-{% set _back = "/dashboard?community_id=" ~ community_id ~ "&community_name=" ~ (community_name | urlencode) ~ "&category=" ~ category %}
-{% set lang_next = _back | urlencode %}
 {% include "_navbar.html" %}
 
 <div class="container mt-4" style="max-width: 720px;">
