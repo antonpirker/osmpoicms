@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block body %}
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 
 <nav class="navbar navbar-light bg-light px-3 border-bottom">
   <a href="/dashboard" class="navbar-brand fw-semibold text-decoration-none text-dark">OSM POI CMS</a>
@@ -123,7 +123,7 @@
 
 </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
   const POI_DATA = [
     {% for poi in pois %}
@@ -131,7 +131,7 @@
     {% endfor %}
   ];
 
-  let leafletMap = null, marker = null, mapOpen = false;
+  let glMap = null, marker = null, mapOpen = false;
   const panel = document.getElementById('map-panel');
 
   document.querySelectorAll('.map-btn').forEach(btn => {
@@ -147,15 +147,18 @@
       mapOpen = true;
       panel.addEventListener('transitionend', function init() {
         panel.removeEventListener('transitionend', init);
-        if (!leafletMap) {
-          leafletMap = L.map('map').setView([poi.lat, poi.lon], 16);
-          L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          }).addTo(leafletMap);
+        if (!glMap) {
+          glMap = new maplibregl.Map({
+            container: 'map',
+            style: 'https://tiles.openfreemap.org/styles/liberty',
+            center: [poi.lon, poi.lat],
+            zoom: 15,
+          });
+          glMap.on('load', () => setMarker(poi));
         } else {
-          leafletMap.invalidateSize();
+          glMap.resize();
+          setMarker(poi);
         }
-        setMarker(poi);
       });
     } else {
       setMarker(poi);
@@ -164,9 +167,12 @@
 
   function setMarker(poi) {
     if (marker) marker.remove();
-    marker = L.marker([poi.lat, poi.lon]).addTo(leafletMap);
-    marker.bindPopup(poi.name).openPopup();
-    leafletMap.panTo([poi.lat, poi.lon]);
+    marker = new maplibregl.Marker()
+      .setLngLat([poi.lon, poi.lat])
+      .setPopup(new maplibregl.Popup().setText(poi.name))
+      .addTo(glMap);
+    marker.togglePopup();
+    glMap.easeTo({ center: [poi.lon, poi.lat] });
   }
 
   function closeMap() {
