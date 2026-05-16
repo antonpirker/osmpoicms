@@ -18,6 +18,11 @@
   --bs-link-hover-color:    #7A9E6E;
 }
 
+body {
+  background-color: #F5F0E8;
+  color: #2C2820;
+}
+
 /* Headings & brand */
 h1, h2, h3, h4, h5, h6, .navbar-brand {
   font-family: 'Spectral', Georgia, serif;
