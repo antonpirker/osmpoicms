@@ -8,11 +8,7 @@
       <button type="button" onclick="switchLang('en')" data-lang-btn="en"
               class="btn btn-sm {% if lang == 'en' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">EN</button>
       {% else %}
-        {% if community_id is defined and community_id %}
-          {% set _nav_next = ("/dashboard?community_id=" ~ community_id ~ "&community_name=" ~ (community_name | urlencode) ~ "&category=" ~ category) | urlencode %}
-        {% else %}
-          {% set _nav_next = request.url.path %}
-        {% endif %}
+      {% set _nav_next = (("/dashboard?community_id=" ~ community_id ~ "&community_name=" ~ (community_name | urlencode) ~ "&category=" ~ category) | urlencode) if (community_id is defined and community_id) else request.url.path %}
       <a href="/set-lang?lang=de&next={{ _nav_next }}"
          class="btn btn-sm {% if lang == 'de' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">DE</a>
       <a href="/set-lang?lang=en&next={{ _nav_next }}"
