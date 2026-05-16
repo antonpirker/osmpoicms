@@ -196,19 +196,28 @@ CATEGORY_TAGS: dict[str, list[tuple[str, str]]] = {
     ],
 }
 
-_COMMON_COLUMNS: list[tuple[str, str]] = [
+_COLUMNS_BEFORE: list[tuple[str, str]] = [
     ("name", "Name"),
     ("addr:street", "Street"),
     ("addr:housenumber", "No."),
     ("phone", "Phone"),
     ("website", "Website"),
+]
+
+_COLUMNS_AFTER: list[tuple[str, str]] = [
     ("opening_hours", "Opening Hours"),
 ]
 
+# Inserted between website and opening_hours
+_MID_COLUMNS: dict[str, list[tuple[str, str]]] = {
+    "restaurants": [("email", "Email")],
+    "hotels": [("email", "Email")],
+}
+
 _EXTRA_COLUMNS: dict[str, list[tuple[str, str]]] = {
-    "restaurants": [("cuisine", "Cuisine"), ("email", "Email")],
+    "restaurants": [("cuisine", "Cuisine")],
     "huts": [("ele", "Elevation (m)")],
-    "hotels": [("stars", "Stars"), ("rooms", "Rooms"), ("email", "Email")],
+    "hotels": [("stars", "Stars"), ("rooms", "Rooms")],
     "doctors": [("healthcare:speciality", "Speciality")],
     "banks": [("operator", "Operator")],
     "leisure": [("access", "Access")],
@@ -217,4 +226,9 @@ _EXTRA_COLUMNS: dict[str, list[tuple[str, str]]] = {
 
 
 def get_columns(category: str) -> list[tuple[str, str]]:
-    return _COMMON_COLUMNS + _EXTRA_COLUMNS.get(category, [])
+    return (
+        _COLUMNS_BEFORE
+        + _MID_COLUMNS.get(category, [])
+        + _COLUMNS_AFTER
+        + _EXTRA_COLUMNS.get(category, [])
+    )
