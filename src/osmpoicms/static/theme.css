@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&display=swap');
 
 /* Moos Light — Bootstrap overrides */
-:root {
+:root, [data-bs-theme=light] {
   --bs-body-font-family:    'DM Sans', system-ui, sans-serif;
   --bs-body-bg:             #F5F0E8;
   --bs-body-color:          #2C2820;
@@ -16,6 +16,9 @@
 
   --bs-link-color:          #4A6741;
   --bs-link-hover-color:    #7A9E6E;
+
+  --bs-focus-ring-color:    rgba(74, 103, 65, 0.25);
+  --bs-focus-ring-width:    0.25rem;
 }
 
 body {
