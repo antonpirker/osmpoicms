@@ -67,5 +67,6 @@
   "col_rooms": "Zimmer",
   "col_healthcare_speciality": "Fachgebiet",
   "col_operator": "Betreiber",
-  "col_access": "Zugang"
+  "col_access": "Zugang",
+  "col_email": "E-Mail"
 }

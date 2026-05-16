@@ -206,9 +206,9 @@ _COMMON_COLUMNS: list[tuple[str, str]] = [
 ]
 
 _EXTRA_COLUMNS: dict[str, list[tuple[str, str]]] = {
-    "restaurants": [("cuisine", "Cuisine")],
+    "restaurants": [("cuisine", "Cuisine"), ("email", "Email")],
     "huts": [("ele", "Elevation (m)")],
-    "hotels": [("stars", "Stars"), ("rooms", "Rooms")],
+    "hotels": [("stars", "Stars"), ("rooms", "Rooms"), ("email", "Email")],
     "doctors": [("healthcare:speciality", "Speciality")],
     "banks": [("operator", "Operator")],
     "leisure": [("access", "Access")],

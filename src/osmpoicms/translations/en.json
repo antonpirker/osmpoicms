@@ -67,5 +67,6 @@
   "col_rooms": "Rooms",
   "col_healthcare_speciality": "Speciality",
   "col_operator": "Operator",
-  "col_access": "Access"
+  "col_access": "Access",
+  "col_email": "Email"
 }
