@@ -36,6 +36,15 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
   background-color: #E8E0D0 !important;
 }
 
+/* Button shadow */
+.btn {
+  box-shadow: 3px 3px 0 #2C2820;
+}
+.btn:active {
+  box-shadow: 1px 1px 0 #2C2820;
+  translate: 2px 2px;
+}
+
 /* Primary button */
 .btn-primary {
   --bs-btn-bg:                 #4A6741;
