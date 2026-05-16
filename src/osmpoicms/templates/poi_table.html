@@ -167,7 +167,7 @@
 
   function setMarker(poi) {
     if (marker) marker.remove();
-    marker = new maplibregl.Marker()
+    marker = new maplibregl.Marker({ color: '#4A6741' })
       .setLngLat([poi.lon, poi.lat])
       .setPopup(new maplibregl.Popup().setText(poi.name))
       .addTo(glMap);
