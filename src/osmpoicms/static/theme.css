@@ -116,6 +116,12 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
   box-shadow: 0 0 0 0.2rem rgba(74, 103, 65, 0.15);
 }
 
+/* MapLibre popup */
+.maplibregl-popup-content {
+  font-family: 'Spectral', Georgia, serif;
+  font-size: 0.95rem;
+}
+
 /* Focused row in POI table */
 tbody tr:focus-within td {
   background-color: #E8F0E4 !important;
