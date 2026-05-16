@@ -85,6 +85,16 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
   --bs-table-color: #2C2820;
 }
 
+/* Radio & Checkbox */
+.form-check-input:checked {
+  background-color: #4A6741;
+  border-color: #4A6741;
+}
+.form-check-input:focus {
+  border-color: #7A9E6E;
+  box-shadow: 0 0 0 0.25rem rgba(74, 103, 65, 0.25);
+}
+
 /* Dropdown */
 .dropdown-item.active, .dropdown-item:active {
   background-color: #E8F0E4;
