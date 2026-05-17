@@ -159,11 +159,11 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 }
 
 /* ── Dropdown ─────────────────────────────────────────────────────────────── */
-.dropdown-item:hover,
-.dropdown-item.active,
-.dropdown-item:active {
-  background-color: var(--color-primary-light);
-  color: var(--color-text);
+:root, [data-bs-theme=light] {
+  --bs-dropdown-link-hover-bg:   var(--color-primary-light);
+  --bs-dropdown-link-hover-color: var(--color-text);
+  --bs-dropdown-link-active-bg:  var(--color-primary-light);
+  --bs-dropdown-link-active-color: var(--color-text);
 }
 
 /* ── Links ────────────────────────────────────────────────────────────────── */
