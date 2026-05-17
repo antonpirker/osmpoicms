@@ -69,7 +69,7 @@ footer a {
 }
 
 footer a:hover {
-  color: var(--color-text);
+  color: var(--color-primary);
 }
 
 h1, h2, h3, h4, h5, h6, .navbar-brand {
@@ -79,6 +79,14 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 /* ── Navbar ───────────────────────────────────────────────────────────────── */
 .navbar.bg-light {
   background-color: var(--color-surface) !important;
+}
+
+.navbar-brand:hover {
+  color: var(--color-primary) !important;
+}
+
+.navbar a.text-muted:hover {
+  color: var(--color-primary) !important;
 }
 
 /* ── Buttons ──────────────────────────────────────────────────────────────── */
