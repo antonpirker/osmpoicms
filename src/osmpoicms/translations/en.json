@@ -19,6 +19,7 @@
   "table_no_pois_prefix": "No POIs found for this category in",
   "table_save_btn": "Save changes",
   "table_osm_link_title": "View on OpenStreetMap",
+  "map_edit_link": "Edit in OpenStreetMap",
 
   "confirm_no_changes": "No changes to save.",
   "confirm_back": "← Back",

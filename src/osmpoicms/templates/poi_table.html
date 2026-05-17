@@ -154,11 +154,15 @@
     }
   }
 
+  let T_MAP_EDIT = {{ t.map_edit_link | tojson }};
+
   function setMarker(poi) {
     if (marker) marker.remove();
+    const editUrl = `https://www.openstreetmap.org/edit?${poi.type}=${poi.id}`;
+    const html = `<strong>${poi.name}</strong><br><a href="${editUrl}" target="_blank" style="font-size:0.85em">${T_MAP_EDIT}</a>`;
     marker = new maplibregl.Marker({ color: '#4A6741' })
       .setLngLat([poi.lon, poi.lat])
-      .setPopup(new maplibregl.Popup().setText(poi.name))
+      .setPopup(new maplibregl.Popup().setHTML(html))
       .addTo(glMap);
     marker.togglePopup();
     glMap.easeTo({ center: [poi.lon, poi.lat] });
@@ -235,6 +239,7 @@
     document.cookie = `lang=${lang}; path=/; max-age=${365 * 24 * 3600}; samesite=lax`;
     currentLang = lang;
     const t = ALL_T[lang];
+    T_MAP_EDIT = t['map_edit_link'];
 
     document.querySelectorAll('[data-i18n]:not(th)').forEach(el => {
       const key = el.dataset.i18n;
