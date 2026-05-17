@@ -1,145 +1,159 @@
 @import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&display=swap');
 
-/* Moos Light — Bootstrap overrides */
+/* ── Moos Light — Theme tokens ────────────────────────────────────────────── */
+:root {
+  /* Fonts */
+  --t-font-body:        'DM Sans', system-ui, sans-serif;
+  --t-font-heading:     'Spectral', Georgia, serif;
+
+  /* Base palette */
+  --t-bg:               #F5F0E8;
+  --t-color:            #2C2820;
+  --t-muted:            #5C5248;
+  --t-surface:          #E8E0D0;  /* navbar, table header, light bg */
+
+  /* Primary (green) */
+  --t-primary:          #4A6741;
+  --t-primary-rgb:      74, 103, 65;
+  --t-primary-hover:    #3d5636;
+  --t-primary-light:    #E8F0E4;  /* active state bg, row highlight */
+  --t-primary-muted:    #7A9E6E;  /* hover links, focus borders */
+}
+
+/* ── Bootstrap variable overrides ─────────────────────────────────────────── */
 :root, [data-bs-theme=light] {
-  --bs-body-font-family:    'DM Sans', system-ui, sans-serif;
-  --bs-body-bg:             #F5F0E8;
-  --bs-body-color:          #2C2820;
-  --bs-secondary-color:     #5C5248;
+  --bs-body-font-family:    var(--t-font-body);
+  --bs-body-bg:             var(--t-bg);
+  --bs-body-color:          var(--t-color);
+  --bs-secondary-color:     var(--t-muted);
 
-  --bs-primary:             #4A6741;
-  --bs-primary-rgb:         74, 103, 65;
+  --bs-primary:             var(--t-primary);
+  --bs-primary-rgb:         var(--t-primary-rgb);
 
-  --bs-light:               #E8E0D0;
+  --bs-light:               var(--t-surface);
   --bs-light-rgb:           232, 224, 208;
-  --bs-border-color:        #E8E0D0;
+  --bs-border-color:        var(--t-surface);
 
-  --bs-link-color:          #4A6741;
-  --bs-link-hover-color:    #7A9E6E;
+  --bs-link-color:          var(--t-primary);
+  --bs-link-hover-color:    var(--t-primary-muted);
 
-  --bs-focus-ring-color:    rgba(74, 103, 65, 0.25);
+  --bs-focus-ring-color:    rgba(var(--t-primary-rgb), 0.25);
   --bs-focus-ring-width:    0.25rem;
 }
 
+/* ── Base ─────────────────────────────────────────────────────────────────── */
 body {
-  background-color: #F5F0E8;
-  color: #2C2820;
+  background-color: var(--t-bg);
+  color: var(--t-color);
 }
 
-/* Headings & brand */
 h1, h2, h3, h4, h5, h6, .navbar-brand {
-  font-family: 'Spectral', Georgia, serif;
+  font-family: var(--t-font-heading);
 }
 
-/* Navbar */
+/* ── Navbar ───────────────────────────────────────────────────────────────── */
 .navbar.bg-light {
-  background-color: #E8E0D0 !important;
+  background-color: var(--t-surface) !important;
 }
 
-/* Button shadow */
+/* ── Buttons ──────────────────────────────────────────────────────────────── */
 .btn {
-  box-shadow: 3px 3px 0 #2C2820;
+  box-shadow: 3px 3px 0 var(--t-color);
 }
 .btn:active {
-  box-shadow: 1px 1px 0 #2C2820;
+  box-shadow: 1px 1px 0 var(--t-color);
   translate: 2px 2px;
 }
 
-/* Primary button */
 .btn-primary {
-  --bs-btn-bg:                 #4A6741;
-  --bs-btn-border-color:       #4A6741;
-  --bs-btn-color:              #F5F0E8;
-  --bs-btn-hover-bg:           #3d5636;
-  --bs-btn-hover-border-color: #3d5636;
-  --bs-btn-hover-color:        #F5F0E8;
-  --bs-btn-active-bg:          #3d5636;
-  --bs-btn-active-border-color:#3d5636;
-  --bs-btn-active-color:       #F5F0E8;
-  --bs-btn-focus-shadow-rgb:   74, 103, 65;
-  --bs-btn-disabled-bg:        #4A6741;
-  --bs-btn-disabled-border-color: #4A6741;
-  --bs-btn-disabled-color:     #F5F0E8;
+  --bs-btn-bg:                    var(--t-primary);
+  --bs-btn-border-color:          var(--t-primary);
+  --bs-btn-color:                 var(--t-bg);
+  --bs-btn-hover-bg:              var(--t-primary-hover);
+  --bs-btn-hover-border-color:    var(--t-primary-hover);
+  --bs-btn-hover-color:           var(--t-bg);
+  --bs-btn-active-bg:             var(--t-primary-hover);
+  --bs-btn-active-border-color:   var(--t-primary-hover);
+  --bs-btn-active-color:          var(--t-bg);
+  --bs-btn-focus-shadow-rgb:      var(--t-primary-rgb);
+  --bs-btn-disabled-bg:           var(--t-primary);
+  --bs-btn-disabled-border-color: var(--t-primary);
+  --bs-btn-disabled-color:        var(--t-bg);
 }
 
-/* Secondary outline button */
 .btn-outline-secondary {
-  --bs-btn-color:              #5C5248;
-  --bs-btn-border-color:       #5C5248;
-  --bs-btn-hover-bg:           #E8E0D0;
-  --bs-btn-hover-color:        #2C2820;
-  --bs-btn-hover-border-color: #5C5248;
-  --bs-btn-active-bg:          #E8F0E4;
-  --bs-btn-active-color:       #4A6741;
+  --bs-btn-color:              var(--t-muted);
+  --bs-btn-border-color:       var(--t-muted);
+  --bs-btn-hover-bg:           var(--t-surface);
+  --bs-btn-hover-color:        var(--t-color);
+  --bs-btn-hover-border-color: var(--t-muted);
+  --bs-btn-active-bg:          var(--t-primary-light);
+  --bs-btn-active-color:       var(--t-primary);
 }
 
-/* Active lang button (btn-secondary used for active state) */
+/* Active lang button */
 .btn-secondary {
-  --bs-btn-bg:                 #E8F0E4;
-  --bs-btn-border-color:       #E8F0E4;
-  --bs-btn-color:              #4A6741;
-  --bs-btn-hover-bg:           #E8F0E4;
-  --bs-btn-hover-color:        #4A6741;
-  --bs-btn-hover-border-color: #E8F0E4;
-  --bs-btn-active-bg:          #E8F0E4;
-  --bs-btn-active-color:       #4A6741;
+  --bs-btn-bg:                 var(--t-primary-light);
+  --bs-btn-border-color:       var(--t-primary-light);
+  --bs-btn-color:              var(--t-primary);
+  --bs-btn-hover-bg:           var(--t-primary-light);
+  --bs-btn-hover-color:        var(--t-primary);
+  --bs-btn-hover-border-color: var(--t-primary-light);
+  --bs-btn-active-bg:          var(--t-primary-light);
+  --bs-btn-active-color:       var(--t-primary);
 }
 
-/* Table */
+/* ── Table ────────────────────────────────────────────────────────────────── */
 .table {
-  --bs-table-border-color: #E8E0D0;
+  --bs-table-border-color: var(--t-surface);
 }
 .table-light {
-  --bs-table-bg:    #E8E0D0;
-  --bs-table-color: #2C2820;
+  --bs-table-bg:    var(--t-surface);
+  --bs-table-color: var(--t-color);
 }
 
-/* Form borders */
+/* ── Forms ────────────────────────────────────────────────────────────────── */
 .form-control,
 .form-select {
-  border-color: #5C5248;
+  border-color: var(--t-muted);
 }
 .form-check-input {
-  border-color: #5C5248;
+  border-color: var(--t-muted);
 }
-
-/* Radio & Checkbox */
 .form-check-input:checked {
-  background-color: #4A6741;
-  border-color: #4A6741;
+  background-color: var(--t-primary);
+  border-color: var(--t-primary);
 }
 .form-check-input:focus {
-  border-color: #7A9E6E;
-  box-shadow: 0 0 0 0.25rem rgba(74, 103, 65, 0.25);
+  border-color: var(--t-primary-muted);
+  box-shadow: 0 0 0 0.25rem rgba(var(--t-primary-rgb), 0.25);
 }
-
-/* Dropdown */
-.dropdown-item.active, .dropdown-item:active {
-  background-color: #E8F0E4;
-  color: #2C2820;
-}
-
-/* Form focus */
 .form-control:focus {
-  border-color: #7A9E6E;
-  box-shadow: 0 0 0 0.2rem rgba(74, 103, 65, 0.15);
+  border-color: var(--t-primary-muted);
+  box-shadow: 0 0 0 0.2rem rgba(var(--t-primary-rgb), 0.15);
 }
 
-/* Table action links */
+/* ── Dropdown ─────────────────────────────────────────────────────────────── */
+.dropdown-item.active, .dropdown-item:active {
+  background-color: var(--t-primary-light);
+  color: var(--t-color);
+}
+
+/* ── Links ────────────────────────────────────────────────────────────────── */
 .link-map {
-  color: #4A6741;
+  color: var(--t-primary);
 }
 .link-map:hover {
-  color: #7A9E6E;
+  color: var(--t-primary-muted);
 }
 
-/* MapLibre popup */
+/* ── MapLibre popup ───────────────────────────────────────────────────────── */
 .maplibregl-popup-content {
-  font-family: 'Spectral', Georgia, serif;
+  font-family: var(--t-font-heading);
   font-size: 0.95rem;
 }
 
-/* Focused row in POI table */
+/* ── POI table ────────────────────────────────────────────────────────────── */
 tbody tr:focus-within td {
-  background-color: #E8F0E4 !important;
+  background-color: var(--t-primary-light) !important;
 }
