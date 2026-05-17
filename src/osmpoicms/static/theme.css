@@ -3,157 +3,157 @@
 /* ── Moos Light — Theme tokens ────────────────────────────────────────────── */
 :root {
   /* Fonts */
-  --t-font-body:        'DM Sans', system-ui, sans-serif;
-  --t-font-heading:     'Spectral', Georgia, serif;
+  --font-body:            'DM Sans', system-ui, sans-serif;
+  --font-heading:         'Spectral', Georgia, serif;
 
   /* Base palette */
-  --t-bg:               #F5F0E8;
-  --t-color:            #2C2820;
-  --t-muted:            #5C5248;
-  --t-surface:          #E8E0D0;  /* navbar, table header, light bg */
+  --color-bg:             #F5F0E8;
+  --color-text:           #2C2820;
+  --color-muted:          #5C5248;
+  --color-surface:        #E8E0D0;  /* navbar, table header, light bg */
 
   /* Primary (green) */
-  --t-primary:          #4A6741;
-  --t-primary-rgb:      74, 103, 65;
-  --t-primary-hover:    #3d5636;
-  --t-primary-light:    #E8F0E4;  /* active state bg, row highlight */
-  --t-primary-muted:    #7A9E6E;  /* hover links, focus borders */
+  --color-primary:        #4A6741;
+  --color-primary-rgb:    74, 103, 65;
+  --color-primary-hover:  #3d5636;
+  --color-primary-light:  #E8F0E4;  /* active state bg, row highlight */
+  --color-primary-muted:  #7A9E6E;  /* hover links, focus borders */
 }
 
 /* ── Bootstrap variable overrides ─────────────────────────────────────────── */
 :root, [data-bs-theme=light] {
-  --bs-body-font-family:    var(--t-font-body);
-  --bs-body-bg:             var(--t-bg);
-  --bs-body-color:          var(--t-color);
-  --bs-secondary-color:     var(--t-muted);
+  --bs-body-font-family:    var(--font-body);
+  --bs-body-bg:             var(--color-bg);
+  --bs-body-color:          var(--color-text);
+  --bs-secondary-color:     var(--color-muted);
 
-  --bs-primary:             var(--t-primary);
-  --bs-primary-rgb:         var(--t-primary-rgb);
+  --bs-primary:             var(--color-primary);
+  --bs-primary-rgb:         var(--color-primary-rgb);
 
-  --bs-light:               var(--t-surface);
+  --bs-light:               var(--color-surface);
   --bs-light-rgb:           232, 224, 208;
-  --bs-border-color:        var(--t-surface);
+  --bs-border-color:        var(--color-surface);
 
-  --bs-link-color:          var(--t-primary);
-  --bs-link-hover-color:    var(--t-primary-muted);
+  --bs-link-color:          var(--color-primary);
+  --bs-link-hover-color:    var(--color-primary-muted);
 
-  --bs-focus-ring-color:    rgba(var(--t-primary-rgb), 0.25);
+  --bs-focus-ring-color:    rgba(var(--color-primary-rgb), 0.25);
   --bs-focus-ring-width:    0.25rem;
 }
 
 /* ── Base ─────────────────────────────────────────────────────────────────── */
 body {
-  background-color: var(--t-bg);
-  color: var(--t-color);
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
 h1, h2, h3, h4, h5, h6, .navbar-brand {
-  font-family: var(--t-font-heading);
+  font-family: var(--font-heading);
 }
 
 /* ── Navbar ───────────────────────────────────────────────────────────────── */
 .navbar.bg-light {
-  background-color: var(--t-surface) !important;
+  background-color: var(--color-surface) !important;
 }
 
 /* ── Buttons ──────────────────────────────────────────────────────────────── */
 .btn {
-  box-shadow: 3px 3px 0 var(--t-color);
+  box-shadow: 3px 3px 0 var(--color-text);
 }
 .btn:active {
-  box-shadow: 1px 1px 0 var(--t-color);
+  box-shadow: 1px 1px 0 var(--color-text);
   translate: 2px 2px;
 }
 
 .btn-primary {
-  --bs-btn-bg:                    var(--t-primary);
-  --bs-btn-border-color:          var(--t-primary);
-  --bs-btn-color:                 var(--t-bg);
-  --bs-btn-hover-bg:              var(--t-primary-hover);
-  --bs-btn-hover-border-color:    var(--t-primary-hover);
-  --bs-btn-hover-color:           var(--t-bg);
-  --bs-btn-active-bg:             var(--t-primary-hover);
-  --bs-btn-active-border-color:   var(--t-primary-hover);
-  --bs-btn-active-color:          var(--t-bg);
-  --bs-btn-focus-shadow-rgb:      var(--t-primary-rgb);
-  --bs-btn-disabled-bg:           var(--t-primary);
-  --bs-btn-disabled-border-color: var(--t-primary);
-  --bs-btn-disabled-color:        var(--t-bg);
+  --bs-btn-bg:                    var(--color-primary);
+  --bs-btn-border-color:          var(--color-primary);
+  --bs-btn-color:                 var(--color-bg);
+  --bs-btn-hover-bg:              var(--color-primary-hover);
+  --bs-btn-hover-border-color:    var(--color-primary-hover);
+  --bs-btn-hover-color:           var(--color-bg);
+  --bs-btn-active-bg:             var(--color-primary-hover);
+  --bs-btn-active-border-color:   var(--color-primary-hover);
+  --bs-btn-active-color:          var(--color-bg);
+  --bs-btn-focus-shadow-rgb:      var(--color-primary-rgb);
+  --bs-btn-disabled-bg:           var(--color-primary);
+  --bs-btn-disabled-border-color: var(--color-primary);
+  --bs-btn-disabled-color:        var(--color-bg);
 }
 
 .btn-outline-secondary {
-  --bs-btn-color:              var(--t-muted);
-  --bs-btn-border-color:       var(--t-muted);
-  --bs-btn-hover-bg:           var(--t-surface);
-  --bs-btn-hover-color:        var(--t-color);
-  --bs-btn-hover-border-color: var(--t-muted);
-  --bs-btn-active-bg:          var(--t-primary-light);
-  --bs-btn-active-color:       var(--t-primary);
+  --bs-btn-color:              var(--color-muted);
+  --bs-btn-border-color:       var(--color-muted);
+  --bs-btn-hover-bg:           var(--color-surface);
+  --bs-btn-hover-color:        var(--color-text);
+  --bs-btn-hover-border-color: var(--color-muted);
+  --bs-btn-active-bg:          var(--color-primary-light);
+  --bs-btn-active-color:       var(--color-primary);
 }
 
 /* Active lang button */
 .btn-secondary {
-  --bs-btn-bg:                 var(--t-primary-light);
-  --bs-btn-border-color:       var(--t-primary-light);
-  --bs-btn-color:              var(--t-primary);
-  --bs-btn-hover-bg:           var(--t-primary-light);
-  --bs-btn-hover-color:        var(--t-primary);
-  --bs-btn-hover-border-color: var(--t-primary-light);
-  --bs-btn-active-bg:          var(--t-primary-light);
-  --bs-btn-active-color:       var(--t-primary);
+  --bs-btn-bg:                 var(--color-primary-light);
+  --bs-btn-border-color:       var(--color-primary-light);
+  --bs-btn-color:              var(--color-primary);
+  --bs-btn-hover-bg:           var(--color-primary-light);
+  --bs-btn-hover-color:        var(--color-primary);
+  --bs-btn-hover-border-color: var(--color-primary-light);
+  --bs-btn-active-bg:          var(--color-primary-light);
+  --bs-btn-active-color:       var(--color-primary);
 }
 
 /* ── Table ────────────────────────────────────────────────────────────────── */
 .table {
-  --bs-table-border-color: var(--t-surface);
+  --bs-table-border-color: var(--color-surface);
 }
 .table-light {
-  --bs-table-bg:    var(--t-surface);
-  --bs-table-color: var(--t-color);
+  --bs-table-bg:    var(--color-surface);
+  --bs-table-color: var(--color-text);
 }
 
 /* ── Forms ────────────────────────────────────────────────────────────────── */
 .form-control,
 .form-select {
-  border-color: var(--t-muted);
+  border-color: var(--color-muted);
 }
 .form-check-input {
-  border-color: var(--t-muted);
+  border-color: var(--color-muted);
 }
 .form-check-input:checked {
-  background-color: var(--t-primary);
-  border-color: var(--t-primary);
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 .form-check-input:focus {
-  border-color: var(--t-primary-muted);
-  box-shadow: 0 0 0 0.25rem rgba(var(--t-primary-rgb), 0.25);
+  border-color: var(--color-primary-muted);
+  box-shadow: 0 0 0 0.25rem rgba(var(--color-primary-rgb), 0.25);
 }
 .form-control:focus {
-  border-color: var(--t-primary-muted);
-  box-shadow: 0 0 0 0.2rem rgba(var(--t-primary-rgb), 0.15);
+  border-color: var(--color-primary-muted);
+  box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.15);
 }
 
 /* ── Dropdown ─────────────────────────────────────────────────────────────── */
 .dropdown-item.active, .dropdown-item:active {
-  background-color: var(--t-primary-light);
-  color: var(--t-color);
+  background-color: var(--color-primary-light);
+  color: var(--color-text);
 }
 
 /* ── Links ────────────────────────────────────────────────────────────────── */
 .link-map {
-  color: var(--t-primary);
+  color: var(--color-primary);
 }
 .link-map:hover {
-  color: var(--t-primary-muted);
+  color: var(--color-primary-muted);
 }
 
 /* ── MapLibre popup ───────────────────────────────────────────────────────── */
 .maplibregl-popup-content {
-  font-family: var(--t-font-heading);
+  font-family: var(--font-heading);
   font-size: 0.95rem;
 }
 
 /* ── POI table ────────────────────────────────────────────────────────────── */
 tbody tr:focus-within td {
-  background-color: var(--t-primary-light) !important;
+  background-color: var(--color-primary-light) !important;
 }
