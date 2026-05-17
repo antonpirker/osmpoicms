@@ -25,7 +25,7 @@ async def search_communities(q: str) -> list[dict]:
     for el in r.json():
         if el.get("osm_type") != "relation":
             continue
-        if el.get("class") != "boundary" or el.get("type") != "administrative":
+        if el.get("category") != "boundary" or el.get("type") != "administrative":
             continue
         name = el.get("namedetails", {}).get("name", "")
         if not name:
