@@ -5,7 +5,7 @@
 <div class="container mt-4" style="max-width: 720px;">
 
   {% if not changed %}
-  <div class="alert alert-info">{{ t.confirm_no_changes }}</div>
+  <div class="alert alert-warning">{{ t.confirm_no_changes }}</div>
   <a href="/dashboard?community_id={{ community_id }}&community_name={{ community_name | urlencode }}&category={{ category }}"
      class="btn btn-outline-secondary">{{ t.confirm_back }}</a>
 
