@@ -6,7 +6,7 @@ class Settings(BaseSettings):
 
     osm_client_id: str
     osm_client_secret: str
-    osm_redirect_uri: str = "https://localhost:8000/auth/callback"
+    osm_redirect_uri: str
     session_secret: str
 
 

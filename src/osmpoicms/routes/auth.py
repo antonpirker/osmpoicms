@@ -53,6 +53,7 @@ async def login():
         s.dumps({"verifier": verifier, "state": state}),
         max_age=_PKCE_MAX_AGE,
         httponly=True,
+        secure=True,
         samesite="lax",
     )
     return response

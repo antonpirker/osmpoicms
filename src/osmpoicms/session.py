@@ -27,6 +27,7 @@ def set_session(response: Response, data: dict) -> None:
         _s().dumps(data),
         max_age=_MAX_AGE,
         httponly=True,
+        secure=True,
         samesite="lax",
     )
 
