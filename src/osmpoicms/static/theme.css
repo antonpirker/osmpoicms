@@ -94,6 +94,15 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
   --bs-table-color: #2C2820;
 }
 
+/* Form borders */
+.form-control,
+.form-select {
+  border-color: #5C5248;
+}
+.form-check-input {
+  border-color: #5C5248;
+}
+
 /* Radio & Checkbox */
 .form-check-input:checked {
   background-color: #4A6741;
