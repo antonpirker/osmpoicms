@@ -1,39 +1,47 @@
 import httpx
 
-_NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
+_OVERPASS_URL = "https://overpass-api.de/api/interpreter"
 _HEADERS = {"User-Agent": "osmpoicms/1.0 (anton@maptoolkit.com)"}
+
+# Overpass area ID for Austria (OSM relation 16239 + 3,600,000,000)
+_AUSTRIA_AREA_ID = 3600016239
+
+_LEVEL_LABEL = {"6": "Bezirk", "8": "Gemeinde", "9": "Ortschaft"}
+
+
+def _display(el: dict) -> str:
+    tags = el["tags"]
+    name = tags.get("name", "")
+    parts = []
+    state = tags.get("is_in:state") or tags.get("addr:state")
+    if state:
+        parts.append(state)
+    level = _LEVEL_LABEL.get(tags.get("admin_level", ""))
+    if level:
+        parts.append(level)
+    return f"{name} ({', '.join(parts)})" if parts else name
 
 
 async def search_communities(q: str) -> list[dict]:
+    # Nominatim is unreliable here — it returns shrines, guesthouses and
+    # person names before actual Gemeinden for common words like "Maria".
+    query = f"""
+[out:json][timeout:10];
+relation["boundary"="administrative"]["admin_level"~"^(6|8|9)$"]["name"~"{q}",i](area:{_AUSTRIA_AREA_ID});
+out tags 8;
+"""
     async with httpx.AsyncClient() as client:
-        r = await client.get(
-            _NOMINATIM_URL,
-            params={
-                "q": q,
-                "format": "jsonv2",
-                "countrycodes": "at",
-                "limit": 20,
-                "addressdetails": 1,
-                "namedetails": 1,
-            },
+        r = await client.post(
+            _OVERPASS_URL,
+            data={"data": query},
             headers=_HEADERS,
-            timeout=10,
+            timeout=15,
         )
         r.raise_for_status()
 
-    results = []
-    for el in r.json():
-        if el.get("osm_type") != "relation":
-            continue
-        if el.get("category") != "boundary" or el.get("type") != "administrative":
-            continue
-        name = el.get("namedetails", {}).get("name", "")
-        if not name:
-            continue
-        addr = el.get("address", {})
-        state = addr.get("state", "")
-        display = f"{name} ({state})" if state else name
-        results.append({"id": el["osm_id"], "name": display})
-
-    results.sort(key=lambda x: x["name"].lower())
+    elements = r.json().get("elements", [])
+    results = sorted(
+        [{"id": el["id"], "name": _display(el)} for el in elements],
+        key=lambda x: x["name"].lower(),
+    )
     return results[:8]
