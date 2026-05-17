@@ -3,6 +3,9 @@ import httpx
 _OVERPASS_URL = "https://overpass-api.de/api/interpreter"
 _HEADERS = {"User-Agent": "osmpoicms/1.0 (anton@maptoolkit.com)"}
 
+# Overpass area ID for Austria (derived from OSM relation 16239 → +3600000000)
+_AUSTRIA_AREA_ID = 3736016239
+
 _LEVEL_LABEL = {"6": "Bezirk", "8": "Gemeinde", "9": "Ortschaft"}
 
 
@@ -25,8 +28,7 @@ async def search_communities(q: str) -> list[dict]:
     # before actual Gemeinden when the query matches common words like "Maria".
     query = f"""
 [out:json][timeout:10];
-area["ISO3166-1"="AT"][admin_level=2]->.at;
-relation["boundary"="administrative"]["admin_level"~"^(6|8|9)$"]["name"~"{q}",i](area.at);
+relation["boundary"="administrative"]["admin_level"~"^(6|8|9)$"]["name"~"{q}",i](area:{_AUSTRIA_AREA_ID});
 out tags 8;
 """
     async with httpx.AsyncClient() as client:
