@@ -71,7 +71,8 @@
                      title="{{ t.table_osm_link_title }}" class="text-decoration-none link-map">↗</a>
                   {% if poi.lat %}
                   <a href="#" class="text-decoration-none ms-1 link-map map-btn"
-                     data-idx="{{ i }}" title="Map">⊕</a>
+                     data-idx="{{ i }}" data-i18n-title="table_map_link_title"
+                     title="{{ t.table_map_link_title }}">⊕</a>
                   {% endif %}
                 </td>
                 {% for key, label in columns %}
