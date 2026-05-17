@@ -152,6 +152,12 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
   font-family: var(--font-heading);
   font-size: 0.95rem;
 }
+.maplibregl-popup-content a {
+  color: var(--color-primary);
+}
+.maplibregl-popup-content a:hover {
+  color: var(--color-primary-muted);
+}
 
 /* ── POI table ────────────────────────────────────────────────────────────── */
 tbody tr:focus-within td {
