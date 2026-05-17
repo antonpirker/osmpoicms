@@ -4,7 +4,7 @@ _OVERPASS_URL = "https://overpass-api.de/api/interpreter"
 _HEADERS = {"User-Agent": "osmpoicms/1.0 (anton@maptoolkit.com)"}
 
 # Overpass area ID for Austria (derived from OSM relation 16239 → +3600000000)
-_AUSTRIA_AREA_ID = 3736016239
+_AUSTRIA_AREA_ID = 3600016239
 
 _LEVEL_LABEL = {"6": "Bezirk", "8": "Gemeinde", "9": "Ortschaft"}
 
