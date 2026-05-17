@@ -23,9 +23,23 @@ out tags 8;
         )
         r.raise_for_status()
 
+    _level_label = {"6": "Bezirk", "8": "Gemeinde", "9": "Ortschaft"}
+
+    def _display(el: dict) -> str:
+        tags = el["tags"]
+        name = tags.get("name", "")
+        parts = []
+        state = tags.get("is_in:state") or tags.get("addr:state")
+        if state:
+            parts.append(state)
+        level = _level_label.get(tags.get("admin_level", ""))
+        if level:
+            parts.append(level)
+        return f"{name} ({', '.join(parts)})" if parts else name
+
     elements = r.json().get("elements", [])
     results = sorted(
-        [{"id": el["id"], "name": el["tags"].get("name", "")} for el in elements],
+        [{"id": el["id"], "name": _display(el)} for el in elements],
         key=lambda x: x["name"].lower(),
     )
     return results[:8]
