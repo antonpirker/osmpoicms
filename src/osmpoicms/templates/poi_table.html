@@ -2,7 +2,6 @@
 {% block body %}
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 
-{% set lang_use_js = true %}
 {% include "_navbar.html" %}
 
 <div style="display: flex; align-items: flex-start;">
@@ -231,36 +230,5 @@
     });
   }
 
-  // --- i18n ---
-  const ALL_T = {{ all_translations | tojson }};
-  let currentLang = {{ lang | tojson }};
-
-  function switchLang(lang) {
-    document.cookie = `lang=${lang}; path=/; max-age=${365 * 24 * 3600}; samesite=lax`;
-    currentLang = lang;
-    const t = ALL_T[lang];
-    T_MAP_EDIT = t['map_edit_link'];
-
-    document.querySelectorAll('[data-i18n]:not(th)').forEach(el => {
-      const key = el.dataset.i18n;
-      if (t[key] !== undefined) el.textContent = t[key];
-    });
-
-    document.querySelectorAll('th[data-i18n]').forEach(th => {
-      const key = th.dataset.i18n;
-      if (t[key] !== undefined) th.querySelector('[data-i18n-label]').textContent = t[key];
-    });
-
-    document.querySelectorAll('[data-i18n-title]').forEach(el => {
-      const key = el.dataset.i18nTitle;
-      if (t[key] !== undefined) el.title = t[key];
-    });
-
-    document.querySelectorAll('[data-lang-btn]').forEach(btn => {
-      const active = btn.dataset.langBtn === lang;
-      btn.classList.toggle('btn-secondary', active);
-      btn.classList.toggle('btn-outline-secondary', !active);
-    });
-  }
 </script>
 {% endblock %}

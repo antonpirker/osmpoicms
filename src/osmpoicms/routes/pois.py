@@ -1,6 +1,5 @@
 import json
 from pathlib import Path
-from urllib.parse import quote, urlencode
 
 import httpx
 from fastapi import APIRouter, Form, Request
@@ -8,7 +7,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 from osmpoicms.categories import get_columns
-from osmpoicms.i18n import all_translations, get_t
+from osmpoicms.i18n import get_t
 from osmpoicms.osm_write import (
     apply_tag_changes,
     close_changeset,
@@ -20,11 +19,6 @@ from osmpoicms.overpass import fetch_pois
 from osmpoicms.session import get_session
 
 router = APIRouter(prefix="/pois")
-
-
-def _dashboard_next(community_id, community_name, category) -> str:
-    qs = urlencode({"community_id": community_id, "community_name": community_name, "category": category})
-    return quote(f"/dashboard?{qs}", safe="")
 templates = Jinja2Templates(directory=Path(__file__).parent.parent / "templates")
 
 
@@ -62,7 +56,6 @@ async def show_pois(
         "error": error,
         "t": t,
         "lang": lang,
-        "all_translations": all_translations(),
     })
 
 
@@ -109,18 +102,15 @@ async def confirm_pois(request: Request):
                 "new_tags_json": json.dumps(new_tags),
             })
 
-    community_id = form.get("community_id")
-    community_name = form.get("community_name")
     lang, t = get_t(request)
     return templates.TemplateResponse(request, "poi_confirm.html", {
         "user": session["user"],
-        "community_id": community_id,
-        "community_name": community_name,
+        "community_id": form.get("community_id"),
+        "community_name": form.get("community_name"),
         "category": category,
         "changed": changed,
         "t": t,
         "lang": lang,
-        "lang_next": _dashboard_next(community_id, community_name, category),
     })
 
 
@@ -177,5 +167,4 @@ async def save_pois(request: Request):
         "category": category,
         "t": t,
         "lang": lang,
-        "lang_next": _dashboard_next(community_id, community_name, category),
     })

@@ -42,7 +42,6 @@ async def dashboard(
             "prefill_category": category,
             "t": t,
             "lang": lang,
-            "lang_next": request.url.path,
         }
     )
 
