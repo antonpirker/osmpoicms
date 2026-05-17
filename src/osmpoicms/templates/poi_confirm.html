@@ -21,13 +21,13 @@
       <div class="d-flex align-items-center gap-2 mb-1">
         <strong>{{ poi.name }}</strong>
         <a href="https://www.openstreetmap.org/{{ poi.type }}/{{ poi.id }}"
-           target="_blank" class="text-muted small text-decoration-none">{{ poi.type }}/{{ poi.id }} 🔗</a>
+           target="_blank" class="text-muted small text-decoration-none">{{ poi.type }}/{{ poi.id }} ↗</a>
       </div>
       <ul class="mb-0 ps-3 small">
         {% for c in poi.diff %}
         <li>
           {% if c.op == "add" %}
-            <span class="text-success">+ {{ c.key }}: <em>{{ c.new }}</em></span>
+            <span style="color: var(--color-primary)">+ {{ c.key }}: <em>{{ c.new }}</em></span>
           {% elif c.op == "del" %}
             <span class="text-danger">− {{ c.key }}: <s>{{ c.old }}</s></span>
           {% else %}
