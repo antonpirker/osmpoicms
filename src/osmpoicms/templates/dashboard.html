@@ -96,6 +96,7 @@
     const q = communityInput.value.trim();
     if (q.length < 2) { closeDropdown(); return; }
     debounce = setTimeout(async () => {
+      communityClear.classList.add('d-none');
       communitySpinner.classList.remove('d-none');
       try {
         const res   = await fetch('/api/communities?q=' + encodeURIComponent(q));
@@ -107,6 +108,7 @@
         dropdown.classList.add('show');
       } finally {
         communitySpinner.classList.add('d-none');
+        checkReady();
       }
     }, 300);
   });
