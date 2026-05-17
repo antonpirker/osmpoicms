@@ -9,16 +9,7 @@
 </head>
 <body>
   <main>{% block body %}{% endblock %}</main>
-  <footer>
-    <div>
-      {% if lang == 'de' %}<strong>Deutsch</strong>{% else %}<a href="/set-lang?lang=de">Deutsch</a>{% endif %}
-      &nbsp;|&nbsp;
-      {% if lang == 'en' %}<strong>English</strong>{% else %}<a href="/set-lang?lang=en">English</a>{% endif %}
-    </div>
-    <div class="mt-1">
-      <a href="https://github.com/antonpirker/osmpoicms/" target="_blank">github.com/antonpirker/osmpoicms</a>
-    </div>
-  </footer>
+  {% include "_footer.html" %}
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
