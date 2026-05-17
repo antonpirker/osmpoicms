@@ -11,6 +11,9 @@
         <input type="text" id="community-input" class="form-control pe-5"
                placeholder="{{ t.dashboard_community_placeholder }}" autocomplete="off"
                value="{{ prefill_community_name }}">
+        <button type="button" id="community-clear"
+                class="position-absolute top-50 end-0 translate-middle-y me-2 btn btn-sm btn-link p-0 text-muted text-decoration-none d-none"
+                tabindex="-1" style="box-shadow:none; line-height:1;">✕</button>
         <span id="community-spinner"
               class="position-absolute top-50 end-0 translate-middle-y me-2 d-none">
           <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
@@ -51,11 +54,22 @@
   const communityName    = document.getElementById('community-name');
   const loadBtn          = document.getElementById('load-btn');
   const communitySpinner = document.getElementById('community-spinner');
+  const communityClear   = document.getElementById('community-clear');
   const loadingText      = {{ t.dashboard_load_btn_loading | tojson }};
 
   function checkReady() {
     loadBtn.disabled = !(communityId.value && document.querySelector('.category-radio:checked'));
+    communityClear.classList.toggle('d-none', !communityInput.value);
   }
+
+  communityClear.addEventListener('click', () => {
+    communityInput.value = '';
+    communityId.value = '';
+    communityName.value = '';
+    closeDropdown();
+    checkReady();
+    communityInput.focus();
+  });
 
   document.querySelectorAll('.category-radio').forEach(r => r.addEventListener('change', checkReady));
 
