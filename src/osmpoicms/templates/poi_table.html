@@ -158,7 +158,7 @@
 
   function setMarker(poi) {
     if (marker) marker.remove();
-    const editUrl = `https://www.openstreetmap.org/edit?${poi.type}=${poi.id}`;
+    const editUrl = `https://www.openstreetmap.org/edit?${poi.type}=${poi.id}#map=15/${poi.lat}/${poi.lon}`;
     const html = `<strong>${poi.name}</strong><br><a href="${editUrl}" target="_blank" style="font-size:0.85em">${T_MAP_EDIT}</a>`;
     marker = new maplibregl.Marker({ color: '#4A6741' })
       .setLngLat([poi.lon, poi.lat])
