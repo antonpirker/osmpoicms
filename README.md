@@ -1,4 +1,4 @@
-# OSM POI CMS
+# osmpoicms - OpenStreetMap POI Editor
 
 Web app for managing POI data for Austrian municipalities on OpenStreetMap.
 
